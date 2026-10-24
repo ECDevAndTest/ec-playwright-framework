@@ -1,0 +1,3977 @@
+{
+  "$schema": "./test-case.schema.json",
+  "source": {
+    "api": "Medusa Store API",
+    "version": "2.21.2",
+    "openApi": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml"
+  },
+  "domain": "Customers",
+  "generated": true,
+  "caseCount": 90,
+  "cases": [
+    {
+      "id": "MED-STORE-CUSTOMERS-001",
+      "title": "Create the authenticated customer: valid customer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a valid unexpired customer token"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-002",
+      "title": "Retrieve the current customer: missing customer authentication",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-003",
+      "title": "Update the current customer: expired customer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an expired customer JWT"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-004",
+      "title": "List customer addresses: malformed bearer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a malformed Authorization bearer value"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-005",
+      "title": "Create a customer address: admin token used as customer",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an Admin API token"
+      },
+      "expected": {
+        "status": [
+          401,
+          403
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 403"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-006",
+      "title": "Retrieve a customer address: missing publishable API key",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-007",
+      "title": "Update a customer address: invalid publishable API key",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-008",
+      "title": "Delete a customer address: valid customer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a valid unexpired customer token"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-009",
+      "title": "Create the authenticated customer: missing customer authentication",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-010",
+      "title": "Retrieve the current customer: expired customer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an expired customer JWT"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-011",
+      "title": "Update the current customer: malformed bearer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a malformed Authorization bearer value"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-012",
+      "title": "List customer addresses: admin token used as customer",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an Admin API token"
+      },
+      "expected": {
+        "status": [
+          401,
+          403
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 403"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-013",
+      "title": "Create a customer address: missing publishable API key",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-014",
+      "title": "Retrieve a customer address: invalid publishable API key",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-015",
+      "title": "Update a customer address: valid customer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a valid unexpired customer token"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-016",
+      "title": "Delete a customer address: missing customer authentication",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-017",
+      "title": "Create the authenticated customer: expired customer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an expired customer JWT"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-018",
+      "title": "Retrieve the current customer: malformed bearer token",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a malformed Authorization bearer value"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-019",
+      "title": "Update the current customer: admin token used as customer",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an Admin API token"
+      },
+      "expected": {
+        "status": [
+          401,
+          403
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 403"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-020",
+      "title": "List customer addresses: missing publishable API key",
+      "domain": "Customers",
+      "category": "registration-token-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-021",
+      "title": "List customer addresses: valid address lifecycle",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute with a complete address owned by the customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerAddressListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-022",
+      "title": "Create a customer address: address owned by another customer",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use another customer's address ID"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-023",
+      "title": "Retrieve a customer address: nonexistent address",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent address ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-024",
+      "title": "Update a customer address: malformed address ID",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-025",
+      "title": "Delete a customer address: missing address line",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit address_1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-026",
+      "title": "List customer addresses: unsupported country",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a country not configured in the target region"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-027",
+      "title": "Create a customer address: duplicate default address",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Create an address identical to an existing address"
+      },
+      "expected": {
+        "status": [
+          200,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-028",
+      "title": "Retrieve a customer address: delete then retrieve",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Delete an address and then retrieve it"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-029",
+      "title": "Update a customer address: valid address lifecycle",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute with a complete address owned by the customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-030",
+      "title": "Delete a customer address: address owned by another customer",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use another customer's address ID"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-031",
+      "title": "List customer addresses: nonexistent address",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent address ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-032",
+      "title": "Create a customer address: malformed address ID",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-033",
+      "title": "Retrieve a customer address: missing address line",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit address_1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-034",
+      "title": "Update a customer address: unsupported country",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a country not configured in the target region"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-035",
+      "title": "Delete a customer address: duplicate default address",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Create an address identical to an existing address"
+      },
+      "expected": {
+        "status": [
+          200,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-036",
+      "title": "List customer addresses: delete then retrieve",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Delete an address and then retrieve it"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-037",
+      "title": "Create a customer address: valid address lifecycle",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute with a complete address owned by the customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-038",
+      "title": "Retrieve a customer address: address owned by another customer",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use another customer's address ID"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-039",
+      "title": "Update a customer address: nonexistent address",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent address ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-040",
+      "title": "Delete a customer address: malformed address ID",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-041",
+      "title": "List customer addresses: missing address line",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit address_1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-042",
+      "title": "Create a customer address: unsupported country",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a country not configured in the target region"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-043",
+      "title": "Retrieve a customer address: duplicate default address",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Create an address identical to an existing address"
+      },
+      "expected": {
+        "status": [
+          200,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-044",
+      "title": "Update a customer address: delete then retrieve",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Delete an address and then retrieve it"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-045",
+      "title": "Delete a customer address: valid address lifecycle",
+      "domain": "Customers",
+      "category": "address-crud-ownership",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute with a complete address owned by the customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-046",
+      "title": "Create the authenticated customer: valid profile",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use valid names, phone, and metadata"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-047",
+      "title": "Retrieve the current customer: mixed-case email",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a mixed-case email and verify normalization"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-048",
+      "title": "Update the current customer: invalid email",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an invalid email format"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-049",
+      "title": "Create the authenticated customer: empty first name",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Set first_name to an empty string"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-050",
+      "title": "Retrieve the current customer: overlong profile field",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Exceed the documented practical field length"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-051",
+      "title": "Update the current customer: unknown profile property",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send an undocumented property"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-052",
+      "title": "Create the authenticated customer: valid profile",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use valid names, phone, and metadata"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-053",
+      "title": "Retrieve the current customer: mixed-case email",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a mixed-case email and verify normalization"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-054",
+      "title": "Update the current customer: invalid email",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an invalid email format"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-055",
+      "title": "Create the authenticated customer: empty first name",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Set first_name to an empty string"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-056",
+      "title": "Retrieve the current customer: overlong profile field",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Exceed the documented practical field length"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-057",
+      "title": "Update the current customer: unknown profile property",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send an undocumented property"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-058",
+      "title": "Create the authenticated customer: valid profile",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use valid names, phone, and metadata"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-059",
+      "title": "Retrieve the current customer: mixed-case email",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a mixed-case email and verify normalization"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-060",
+      "title": "Update the current customer: invalid email",
+      "domain": "Customers",
+      "category": "profile-validation-updates",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an invalid email format"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-061",
+      "title": "Create the authenticated customer: customer isolation",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify response data belongs only to the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-062",
+      "title": "Retrieve the current customer: resource ID enumeration",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Attempt sequential and random IDs owned by other customers"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-063",
+      "title": "Update the current customer: PII response minimization",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify credentials and password hashes are never returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-064",
+      "title": "List customer addresses: token subject mismatch",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a token whose subject does not match the requested resource"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-065",
+      "title": "Create a customer address: deleted customer token",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a token for a deleted customer"
+      },
+      "expected": {
+        "status": [
+          401,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-066",
+      "title": "Retrieve a customer address: customer isolation",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify response data belongs only to the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerAddressResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-067",
+      "title": "Update a customer address: resource ID enumeration",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Attempt sequential and random IDs owned by other customers"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-068",
+      "title": "Delete a customer address: PII response minimization",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify credentials and password hashes are never returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-069",
+      "title": "Create the authenticated customer: token subject mismatch",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a token whose subject does not match the requested resource"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-070",
+      "title": "Retrieve the current customer: deleted customer token",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a token for a deleted customer"
+      },
+      "expected": {
+        "status": [
+          401,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-071",
+      "title": "Update the current customer: customer isolation",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify response data belongs only to the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-072",
+      "title": "List customer addresses: resource ID enumeration",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Attempt sequential and random IDs owned by other customers"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-073",
+      "title": "Create a customer address: PII response minimization",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify credentials and password hashes are never returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-074",
+      "title": "Retrieve a customer address: token subject mismatch",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a token whose subject does not match the requested resource"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-075",
+      "title": "Update a customer address: deleted customer token",
+      "domain": "Customers",
+      "category": "privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a token for a deleted customer"
+      },
+      "expected": {
+        "status": [
+          401,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-076",
+      "title": "Create the authenticated customer: minimal fields",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request only id,email"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-077",
+      "title": "Retrieve the current customer: unknown field",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request an undocumented field"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-078",
+      "title": "Update the current customer: valid locale",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send a configured locale"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-079",
+      "title": "List customer addresses: address pagination",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request address list pagination boundaries"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerAddressListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-080",
+      "title": "Create a customer address: minimal fields",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request only id,email"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-081",
+      "title": "Retrieve a customer address: unknown field",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request an undocumented field"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-082",
+      "title": "Update a customer address: valid locale",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send a configured locale"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-083",
+      "title": "Delete a customer address: address pagination",
+      "domain": "Customers",
+      "category": "fields-localization-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request address list pagination boundaries"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-084",
+      "title": "Create the authenticated customer: duplicate registration",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Register the same email twice"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-085",
+      "title": "Update the current customer: concurrent profile updates",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Update the same profile concurrently"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-086",
+      "title": "Create a customer address: concurrent address deletion",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Delete the same address concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          404,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 404 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-087",
+      "title": "Update a customer address: replayed mutation",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Replay the same successful mutation"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-088",
+      "title": "Delete a customer address: duplicate registration",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/customers/me/addresses/{address_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Register the same email twice"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-089",
+      "title": "Create the authenticated customer: concurrent profile updates",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "A valid customer registration token exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Update the same profile concurrently"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCustomerResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CUSTOMERS-090",
+      "title": "Update the current customer: concurrent address deletion",
+      "domain": "Customers",
+      "category": "duplicate-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/customers/me"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/customers/me",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Delete the same address concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          404,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 404 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    }
+  ]
+}

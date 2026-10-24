@@ -1,0 +1,1621 @@
+{
+  "$schema": "./test-case.schema.json",
+  "source": {
+    "api": "Medusa Store API",
+    "version": "2.21.2",
+    "openApi": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml"
+  },
+  "domain": "Regions",
+  "generated": true,
+  "caseCount": 40,
+  "cases": [
+    {
+      "id": "MED-STORE-REGIONS-001",
+      "title": "List regions: default pagination",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit limit and offset"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-002",
+      "title": "Retrieve a region: limit one",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-003",
+      "title": "List regions: negative limit",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-004",
+      "title": "Retrieve a region: large offset",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset beyond available regions"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-005",
+      "title": "List regions: filter by ID",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Filter using an existing region ID"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-006",
+      "title": "Retrieve a region: ascending name order",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request ascending name order"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-007",
+      "title": "List regions: default pagination",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit limit and offset"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-008",
+      "title": "Retrieve a region: limit one",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-009",
+      "title": "List regions: negative limit",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-010",
+      "title": "Retrieve a region: large offset",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset beyond available regions"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-011",
+      "title": "List regions: filter by ID",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Filter using an existing region ID"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-012",
+      "title": "Retrieve a region: ascending name order",
+      "domain": "Regions",
+      "category": "filtering-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request ascending name order"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-013",
+      "title": "List regions: successful response",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send the minimum valid request"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-014",
+      "title": "Retrieve a region: JSON content type",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify Content-Type is application/json"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-015",
+      "title": "List regions: required region fields",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify id,name,currency_code are present"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-016",
+      "title": "Retrieve a region: list metadata",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify count,limit,offset consistency"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-017",
+      "title": "List regions: successful response",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send the minimum valid request"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-018",
+      "title": "Retrieve a region: JSON content type",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify Content-Type is application/json"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-019",
+      "title": "List regions: required region fields",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify id,name,currency_code are present"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-020",
+      "title": "Retrieve a region: list metadata",
+      "domain": "Regions",
+      "category": "list-retrieve-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify count,limit,offset consistency"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-021",
+      "title": "List regions: minimal fields",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request fields=id,name,currency_code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-022",
+      "title": "Retrieve a region: country relation",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request countries and payment providers"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-023",
+      "title": "List regions: unknown field",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request an undocumented field"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-024",
+      "title": "Retrieve a region: valid locale",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a configured locale"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-025",
+      "title": "List regions: minimal fields",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request fields=id,name,currency_code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-026",
+      "title": "Retrieve a region: country relation",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request countries and payment providers"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-027",
+      "title": "List regions: unknown field",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request an undocumented field"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-028",
+      "title": "Retrieve a region: valid locale",
+      "domain": "Regions",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a configured locale"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-029",
+      "title": "List regions: missing publishable API key",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-030",
+      "title": "Retrieve a region: invalid publishable API key",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-031",
+      "title": "List regions: nonexistent region",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent region ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-032",
+      "title": "Retrieve a region: malformed region ID",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-033",
+      "title": "List regions: missing publishable API key",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-034",
+      "title": "Retrieve a region: invalid publishable API key",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-035",
+      "title": "List regions: nonexistent region",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent region ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-036",
+      "title": "Retrieve a region: malformed region ID",
+      "domain": "Regions",
+      "category": "invalid-ids-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-037",
+      "title": "List regions: list/detail consistency",
+      "domain": "Regions",
+      "category": "cross-response-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Compare the same region in list and detail responses"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-038",
+      "title": "Retrieve a region: currency consistency",
+      "domain": "Regions",
+      "category": "cross-response-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify region currency matches returned prices and configuration"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-039",
+      "title": "List regions: list/detail consistency",
+      "domain": "Regions",
+      "category": "cross-response-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Compare the same region in list and detail responses"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-REGIONS-040",
+      "title": "Retrieve a region: currency consistency",
+      "domain": "Regions",
+      "category": "cross-response-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/regions/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A configured region exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/regions/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify region currency matches returned prices and configuration"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreRegionResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    }
+  ]
+}

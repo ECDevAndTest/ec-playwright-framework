@@ -1,0 +1,49 @@
+{
+  "catalog": "Medusa Store API test-case candidates",
+  "apiVersion": "2.21.2",
+  "sourceSpec": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml",
+  "generatedCaseCount": 500,
+  "supplementalCases": [
+    {
+      "id": "MED-API-001",
+      "file": "backend-health.json",
+      "note": "Backend health is outside the /store OpenAPI surface and is not included in the 500 generated candidates."
+    }
+  ],
+  "domains": [
+    {
+      "domain": "Products",
+      "file": "products.cases.json",
+      "caseCount": 80
+    },
+    {
+      "domain": "Carts",
+      "file": "carts.cases.json",
+      "caseCount": 150
+    },
+    {
+      "domain": "Customers",
+      "file": "customers.cases.json",
+      "caseCount": 90
+    },
+    {
+      "domain": "Regions",
+      "file": "regions.cases.json",
+      "caseCount": 40
+    },
+    {
+      "domain": "Orders",
+      "file": "orders.cases.json",
+      "caseCount": 100
+    },
+    {
+      "domain": "Cart Promotions",
+      "file": "promotions.cases.json",
+      "caseCount": 40
+    }
+  ],
+  "lifecycle": {
+    "generatedStatus": "candidate",
+    "reviewRequiredBeforeAutomation": true
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "id": "MED-API-001",
+    "title": "Medusa backend reports healthy status",
+    "type": "api",
+    "priority": "critical",
+    "preconditions": [
+      "PostgreSQL is running",
+      "Medusa backend is running on port 9000"
+    ],
+    "steps": [
+      {
+        "action": "Send GET request to /health",
+        "expected": "Response status is 200"
+      },
+      {
+        "action": "Read the response body",
+        "expected": "Response body is OK"
+      }
+    ],
+    "automation": {
+      "status": "automated",
+      "spec": "tests/medusa/api/backend-health.spec.ts"
+    }
+  }

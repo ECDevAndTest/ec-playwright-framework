@@ -1,0 +1,6384 @@
+{
+  "$schema": "./test-case.schema.json",
+  "source": {
+    "api": "Medusa Store API",
+    "version": "2.21.2",
+    "openApi": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml"
+  },
+  "domain": "Carts",
+  "generated": true,
+  "caseCount": 150,
+  "cases": [
+    {
+      "id": "MED-STORE-CARTS-001",
+      "title": "Create a cart: valid lifecycle state",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute the operation from its documented valid cart state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-002",
+      "title": "Retrieve a cart: already completed cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against an already completed cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-003",
+      "title": "Update a cart: deleted cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against a deleted cart"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-004",
+      "title": "Complete a cart: nonexistent cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent cart ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-005",
+      "title": "Associate the authenticated customer: malformed cart ID",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-006",
+      "title": "Add gift cards to a cart: replay after success",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Repeat the operation after a successful response"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-007",
+      "title": "Remove gift cards from a cart: valid lifecycle state",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute the operation from its documented valid cart state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-008",
+      "title": "Add a line item: already completed cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against an already completed cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-009",
+      "title": "Update a line item: deleted cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against a deleted cart"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-010",
+      "title": "Delete a line item: nonexistent cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent cart ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-011",
+      "title": "Add a shipping method: malformed cart ID",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-012",
+      "title": "Add store credit: replay after success",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Repeat the operation after a successful response"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-013",
+      "title": "Refresh cart taxes: valid lifecycle state",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute the operation from its documented valid cart state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-014",
+      "title": "Create a cart: already completed cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against an already completed cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-015",
+      "title": "Retrieve a cart: deleted cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against a deleted cart"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-016",
+      "title": "Update a cart: nonexistent cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent cart ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-017",
+      "title": "Complete a cart: malformed cart ID",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-018",
+      "title": "Associate the authenticated customer: replay after success",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Repeat the operation after a successful response"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-019",
+      "title": "Add gift cards to a cart: valid lifecycle state",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute the operation from its documented valid cart state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-020",
+      "title": "Remove gift cards from a cart: already completed cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against an already completed cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-021",
+      "title": "Add a line item: deleted cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against a deleted cart"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-022",
+      "title": "Update a line item: nonexistent cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent cart ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-023",
+      "title": "Delete a line item: malformed cart ID",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-024",
+      "title": "Add a shipping method: replay after success",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Repeat the operation after a successful response"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-025",
+      "title": "Add store credit: valid lifecycle state",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute the operation from its documented valid cart state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-026",
+      "title": "Refresh cart taxes: already completed cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against an already completed cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-027",
+      "title": "Create a cart: deleted cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute against a deleted cart"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-028",
+      "title": "Retrieve a cart: nonexistent cart",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent cart ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-029",
+      "title": "Update a cart: malformed cart ID",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-030",
+      "title": "Complete a cart: replay after success",
+      "domain": "Carts",
+      "category": "lifecycle-completion-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Repeat the operation after a successful response"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-031",
+      "title": "Retrieve a cart: valid in-stock quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an in-stock published variant and quantity=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-032",
+      "title": "Add a line item: quantity zero",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=0"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-033",
+      "title": "Update a line item: negative quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-034",
+      "title": "Delete a line item: fractional quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=1.5"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-035",
+      "title": "Retrieve a cart: quantity above inventory",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request more units than available inventory"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-036",
+      "title": "Add a line item: draft variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a variant belonging to a draft product"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-037",
+      "title": "Update a line item: unknown variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent variant ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-038",
+      "title": "Delete a line item: line item from another cart",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a line-item ID owned by another cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-039",
+      "title": "Retrieve a cart: valid in-stock quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an in-stock published variant and quantity=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-040",
+      "title": "Add a line item: quantity zero",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=0"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-041",
+      "title": "Update a line item: negative quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-042",
+      "title": "Delete a line item: fractional quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=1.5"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-043",
+      "title": "Retrieve a cart: quantity above inventory",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request more units than available inventory"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-044",
+      "title": "Add a line item: draft variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a variant belonging to a draft product"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-045",
+      "title": "Update a line item: unknown variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent variant ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-046",
+      "title": "Delete a line item: line item from another cart",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a line-item ID owned by another cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-047",
+      "title": "Retrieve a cart: valid in-stock quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an in-stock published variant and quantity=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-048",
+      "title": "Add a line item: quantity zero",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=0"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-049",
+      "title": "Update a line item: negative quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-050",
+      "title": "Delete a line item: fractional quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=1.5"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-051",
+      "title": "Retrieve a cart: quantity above inventory",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request more units than available inventory"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-052",
+      "title": "Add a line item: draft variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a variant belonging to a draft product"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-053",
+      "title": "Update a line item: unknown variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent variant ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-054",
+      "title": "Delete a line item: line item from another cart",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a line-item ID owned by another cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-055",
+      "title": "Retrieve a cart: valid in-stock quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an in-stock published variant and quantity=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-056",
+      "title": "Add a line item: quantity zero",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=0"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-057",
+      "title": "Update a line item: negative quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-058",
+      "title": "Delete a line item: fractional quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=1.5"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-059",
+      "title": "Retrieve a cart: quantity above inventory",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request more units than available inventory"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-060",
+      "title": "Add a line item: draft variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a variant belonging to a draft product"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-061",
+      "title": "Retrieve a cart: totals recalculated",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify totals and subtotals are recalculated after the operation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-062",
+      "title": "Add gift cards to a cart: ineligible resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a valid resource that is not eligible for this cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-063",
+      "title": "Remove gift cards from a cart: expired resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an expired gift card, credit, or shipping option"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-064",
+      "title": "Add a shipping method: currency mismatch",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a resource denominated in another currency"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-065",
+      "title": "Add store credit: tax-inclusive region",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify tax-inclusive totals in a configured region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-066",
+      "title": "Refresh cart taxes: rounding boundary",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use prices that exercise currency rounding boundaries"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-067",
+      "title": "Retrieve a cart: duplicate application",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply the same resource twice"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-068",
+      "title": "Add gift cards to a cart: totals recalculated",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify totals and subtotals are recalculated after the operation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-069",
+      "title": "Remove gift cards from a cart: ineligible resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a valid resource that is not eligible for this cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-070",
+      "title": "Add a shipping method: expired resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an expired gift card, credit, or shipping option"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-071",
+      "title": "Add store credit: currency mismatch",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a resource denominated in another currency"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-072",
+      "title": "Refresh cart taxes: tax-inclusive region",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify tax-inclusive totals in a configured region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-073",
+      "title": "Retrieve a cart: rounding boundary",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use prices that exercise currency rounding boundaries"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-074",
+      "title": "Add gift cards to a cart: duplicate application",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply the same resource twice"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-075",
+      "title": "Remove gift cards from a cart: totals recalculated",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify totals and subtotals are recalculated after the operation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-076",
+      "title": "Add a shipping method: ineligible resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a valid resource that is not eligible for this cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-077",
+      "title": "Add store credit: expired resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an expired gift card, credit, or shipping option"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-078",
+      "title": "Refresh cart taxes: currency mismatch",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a resource denominated in another currency"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-079",
+      "title": "Retrieve a cart: tax-inclusive region",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify tax-inclusive totals in a configured region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-080",
+      "title": "Add gift cards to a cart: rounding boundary",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use prices that exercise currency rounding boundaries"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-081",
+      "title": "Remove gift cards from a cart: duplicate application",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply the same resource twice"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-082",
+      "title": "Add a shipping method: totals recalculated",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify totals and subtotals are recalculated after the operation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-083",
+      "title": "Add store credit: ineligible resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a valid resource that is not eligible for this cart"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-084",
+      "title": "Refresh cart taxes: expired resource",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an expired gift card, credit, or shipping option"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-085",
+      "title": "Retrieve a cart: currency mismatch",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a resource denominated in another currency"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-086",
+      "title": "Add gift cards to a cart: tax-inclusive region",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify tax-inclusive totals in a configured region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-087",
+      "title": "Remove gift cards from a cart: rounding boundary",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use prices that exercise currency rounding boundaries"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-088",
+      "title": "Add a shipping method: duplicate application",
+      "domain": "Carts",
+      "category": "tax-shipping-gift-credit-totals",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply the same resource twice"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-089",
+      "title": "Create a cart: valid region",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a configured region ID"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-090",
+      "title": "Retrieve a cart: unknown region",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent region ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-091",
+      "title": "Update a cart: unsupported country",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a country not configured for the cart region"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-092",
+      "title": "Associate the authenticated customer: complete shipping address",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Provide all required shipping address fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-093",
+      "title": "Create a cart: missing postal code",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit a required postal code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-094",
+      "title": "Retrieve a cart: customer email normalization",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use mixed-case email and verify normalized behavior"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-095",
+      "title": "Update a cart: missing customer authentication",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-096",
+      "title": "Associate the authenticated customer: valid region",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a configured region ID"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-097",
+      "title": "Create a cart: unknown region",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent region ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-098",
+      "title": "Retrieve a cart: unsupported country",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a country not configured for the cart region"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-099",
+      "title": "Update a cart: complete shipping address",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Provide all required shipping address fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-100",
+      "title": "Associate the authenticated customer: missing postal code",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit a required postal code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-101",
+      "title": "Create a cart: customer email normalization",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use mixed-case email and verify normalized behavior"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-102",
+      "title": "Retrieve a cart: missing customer authentication",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-103",
+      "title": "Update a cart: valid region",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a configured region ID"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-104",
+      "title": "Associate the authenticated customer: unknown region",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent region ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-105",
+      "title": "Create a cart: unsupported country",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a country not configured for the cart region"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-106",
+      "title": "Retrieve a cart: complete shipping address",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Provide all required shipping address fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-107",
+      "title": "Update a cart: missing postal code",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit a required postal code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-108",
+      "title": "Associate the authenticated customer: customer email normalization",
+      "domain": "Carts",
+      "category": "region-address-customer",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use mixed-case email and verify normalized behavior"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-109",
+      "title": "Create a cart: empty JSON body",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send an empty JSON object"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-110",
+      "title": "Retrieve a cart: null JSON body",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send JSON null"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-111",
+      "title": "Update a cart: malformed JSON",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send malformed JSON with application/json"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-112",
+      "title": "Complete a cart: wrong property type",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a documented property using the wrong JSON type"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-113",
+      "title": "Associate the authenticated customer: unknown property",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Add an undocumented request property"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-114",
+      "title": "Add gift cards to a cart: concurrent identical mutation",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue two identical mutations concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-115",
+      "title": "Remove gift cards from a cart: concurrent conflicting mutation",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue conflicting mutations against the same cart"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-116",
+      "title": "Add a line item: request replay",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Replay the exact successful request"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-117",
+      "title": "Update a line item: empty JSON body",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send an empty JSON object"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-118",
+      "title": "Delete a line item: null JSON body",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send JSON null"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-119",
+      "title": "Add a shipping method: malformed JSON",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an address and eligible shipping option"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/shipping-methods",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send malformed JSON with application/json"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-120",
+      "title": "Add store credit: wrong property type",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and eligible store credit exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/store-credits",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a documented property using the wrong JSON type"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-121",
+      "title": "Refresh cart taxes: unknown property",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has taxable items and an address"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/taxes",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Add an undocumented request property"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-122",
+      "title": "Create a cart: concurrent identical mutation",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue two identical mutations concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-123",
+      "title": "Retrieve a cart: concurrent conflicting mutation",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue conflicting mutations against the same cart"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-124",
+      "title": "Update a cart: request replay",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Replay the exact successful request"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-125",
+      "title": "Complete a cart: empty JSON body",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send an empty JSON object"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-126",
+      "title": "Associate the authenticated customer: null JSON body",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send JSON null"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-127",
+      "title": "Add gift cards to a cart: malformed JSON",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send malformed JSON with application/json"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-128",
+      "title": "Remove gift cards from a cart: wrong property type",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a documented property using the wrong JSON type"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-129",
+      "title": "Add a line item: unknown property",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Add an undocumented request property"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-130",
+      "title": "Update a line item: concurrent identical mutation",
+      "domain": "Carts",
+      "category": "validation-replay-concurrency-idempotency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue two identical mutations concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-131",
+      "title": "Create a cart: missing publishable API key",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-132",
+      "title": "Retrieve a cart: invalid publishable API key",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-133",
+      "title": "Update a cart: missing customer authentication",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-134",
+      "title": "Complete a cart: minimal fields",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request only cart id,currency_code,total"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCompleteCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-135",
+      "title": "Associate the authenticated customer: valid locale",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send a configured locale and verify localized item fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-136",
+      "title": "Add gift cards to a cart: missing publishable API key",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-137",
+      "title": "Remove gift cards from a cart: invalid publishable API key",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-138",
+      "title": "Add a line item: missing customer authentication",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-139",
+      "title": "Update a line item: minimal fields",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request only cart id,currency_code,total"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-140",
+      "title": "Delete a line item: valid locale",
+      "domain": "Carts",
+      "category": "fields-localization-authentication",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a configured locale and verify localized item fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-141",
+      "title": "Create a cart: JSON contract",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify the documented response schema and Content-Type"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-142",
+      "title": "Retrieve a cart: total equation",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify total components reconcile arithmetically"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-143",
+      "title": "Update a cart: mutation/read consistency",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Retrieve the cart after mutation and compare persisted fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-144",
+      "title": "Complete a cart: timestamps",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/complete"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A checkout-ready cart exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/complete",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify created_at and updated_at semantics"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCompleteCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-145",
+      "title": "Associate the authenticated customer: identifier prefixes",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/customer"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "An active cart exists",
+        "An authenticated customer exists"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/customer",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify cart, item, and related IDs use documented prefixes"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-146",
+      "title": "Add gift cards to a cart: JSON contract",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and valid gift card exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify the documented response schema and Content-Type"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-147",
+      "title": "Remove gift cards from a cart: total equation",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has a gift card"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/gift-cards",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify total components reconcile arithmetically"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-148",
+      "title": "Add a line item: mutation/read consistency",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Retrieve the cart after mutation and compare persisted fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-149",
+      "title": "Update a line item: timestamps",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify created_at and updated_at semantics"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-150",
+      "title": "Delete a line item: identifier prefixes",
+      "domain": "Carts",
+      "category": "response-cross-operation-consistency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify cart, item, and related IDs use documented prefixes"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    }
+  ]
+}

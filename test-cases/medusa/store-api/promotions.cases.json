@@ -1,0 +1,1704 @@
+{
+  "$schema": "./test-case.schema.json",
+  "source": {
+    "api": "Medusa Store API",
+    "version": "2.21.2",
+    "openApi": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml"
+  },
+  "domain": "Cart Promotions",
+  "generated": true,
+  "caseCount": 40,
+  "cases": [
+    {
+      "id": "MED-STORE-PROMOTIONS-001",
+      "title": "Add promotions to a cart: unknown promotion code",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion code that does not exist"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-002",
+      "title": "Remove promotions from a cart: expired promotion",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an expired promotion code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-003",
+      "title": "Add promotions to a cart: inactive promotion",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an inactive promotion code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-004",
+      "title": "Remove promotions from a cart: not-yet-active promotion",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion before its start date"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-005",
+      "title": "Add promotions to a cart: minimum spend not met",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion whose minimum spend is not met"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-006",
+      "title": "Remove promotions from a cart: product eligibility not met",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion for an ineligible product"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-007",
+      "title": "Add promotions to a cart: unknown promotion code",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion code that does not exist"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-008",
+      "title": "Remove promotions from a cart: expired promotion",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an expired promotion code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-009",
+      "title": "Add promotions to a cart: inactive promotion",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an inactive promotion code"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-010",
+      "title": "Remove promotions from a cart: not-yet-active promotion",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion before its start date"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-011",
+      "title": "Add promotions to a cart: minimum spend not met",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion whose minimum spend is not met"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-012",
+      "title": "Remove promotions from a cart: product eligibility not met",
+      "domain": "Cart Promotions",
+      "category": "invalid-expired-inactive-ineligible",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a promotion for an ineligible product"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-013",
+      "title": "Add promotions to a cart: stackable promotions",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply two compatible promotion codes"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-014",
+      "title": "Remove promotions from a cart: exclusive promotion conflict",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply an exclusive code with another code"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-015",
+      "title": "Add promotions to a cart: duplicate promotion",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply the same promotion twice"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-016",
+      "title": "Remove promotions from a cart: automatic and code promotion",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Combine an automatic promotion with a valid code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-017",
+      "title": "Add promotions to a cart: remove automatic promotion",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt to remove an automatic promotion"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-018",
+      "title": "Remove promotions from a cart: stackable promotions",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply two compatible promotion codes"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-019",
+      "title": "Add promotions to a cart: exclusive promotion conflict",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply an exclusive code with another code"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-020",
+      "title": "Remove promotions from a cart: duplicate promotion",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply the same promotion twice"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-021",
+      "title": "Add promotions to a cart: automatic and code promotion",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Combine an automatic promotion with a valid code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-022",
+      "title": "Remove promotions from a cart: remove automatic promotion",
+      "domain": "Cart Promotions",
+      "category": "stacking-exclusivity-duplicates-automatic",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt to remove an automatic promotion"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-023",
+      "title": "Add promotions to a cart: apply valid percentage code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply an eligible percentage promotion"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-024",
+      "title": "Remove promotions from a cart: apply valid fixed code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply an eligible fixed-amount promotion"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-025",
+      "title": "Add promotions to a cart: remove applied code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Remove an applied promotion code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-026",
+      "title": "Remove promotions from a cart: apply case-sensitive code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify documented promotion code case behavior"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-027",
+      "title": "Add promotions to a cart: apply valid percentage code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply an eligible percentage promotion"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-028",
+      "title": "Remove promotions from a cart: apply valid fixed code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Apply an eligible fixed-amount promotion"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-029",
+      "title": "Add promotions to a cart: remove applied code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Remove an applied promotion code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-030",
+      "title": "Remove promotions from a cart: apply case-sensitive code",
+      "domain": "Cart Promotions",
+      "category": "add-remove-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify documented promotion code case behavior"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-031",
+      "title": "Add promotions to a cart: item discount totals",
+      "domain": "Cart Promotions",
+      "category": "totals-tax-shipping-rounding",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify item discount and cart total reconciliation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-032",
+      "title": "Remove promotions from a cart: shipping promotion totals",
+      "domain": "Cart Promotions",
+      "category": "totals-tax-shipping-rounding",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify shipping discount recalculation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-033",
+      "title": "Add promotions to a cart: tax-inclusive discount",
+      "domain": "Cart Promotions",
+      "category": "totals-tax-shipping-rounding",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify discount and tax totals in a tax-inclusive region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-034",
+      "title": "Remove promotions from a cart: currency rounding",
+      "domain": "Cart Promotions",
+      "category": "totals-tax-shipping-rounding",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Exercise a discount amount requiring currency rounding"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-035",
+      "title": "Add promotions to a cart: item discount totals",
+      "domain": "Cart Promotions",
+      "category": "totals-tax-shipping-rounding",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify item discount and cart total reconciliation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-036",
+      "title": "Remove promotions from a cart: shipping promotion totals",
+      "domain": "Cart Promotions",
+      "category": "totals-tax-shipping-rounding",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify shipping discount recalculation"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-037",
+      "title": "Add promotions to a cart: concurrent promotion mutations",
+      "domain": "Cart Promotions",
+      "category": "replay-concurrency-body-key-validation",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Add and remove the same promotion concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-038",
+      "title": "Remove promotions from a cart: empty promotion codes",
+      "domain": "Cart Promotions",
+      "category": "replay-concurrency-body-key-validation",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send an empty promotion-code collection"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-039",
+      "title": "Add promotions to a cart: missing publishable API key",
+      "domain": "Cart Promotions",
+      "category": "replay-concurrency-body-key-validation",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and promotion code exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PROMOTIONS-040",
+      "title": "Remove promotions from a cart: invalid publishable API key",
+      "domain": "Cart Promotions",
+      "category": "replay-concurrency-body-key-validation",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart has an applied promotion"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/promotions",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    }
+  ]
+}

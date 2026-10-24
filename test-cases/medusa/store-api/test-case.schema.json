@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/medusa-store-test-cases.schema.json",
+  "title": "Medusa Store API Test Case Catalog",
+  "type": "object",
+  "required": [
+    "source",
+    "domain",
+    "generated",
+    "caseCount",
+    "cases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "api",
+        "version",
+        "openApi"
+      ],
+      "properties": {
+        "api": {
+          "const": "Medusa Store API"
+        },
+        "version": {
+          "type": "string"
+        },
+        "openApi": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": false
+    },
+    "domain": {
+      "type": "string"
+    },
+    "generated": {
+      "const": true
+    },
+    "caseCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/testCase"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "status": {
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          }
+        }
+      ]
+    },
+    "header": {
+      "type": "object",
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "testCase": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "domain",
+        "category",
+        "priority",
+        "source",
+        "auth",
+        "preconditions",
+        "request",
+        "expected",
+        "automation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^MED-STORE-[A-Z]+-[0-9]{3}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "domain": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "priority": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "apiVersion",
+            "method",
+            "path"
+          ],
+          "properties": {
+            "apiVersion": {
+              "type": "string"
+            },
+            "method": {
+              "enum": [
+                "GET",
+                "POST",
+                "DELETE"
+              ]
+            },
+            "path": {
+              "type": "string",
+              "pattern": "^/store/"
+            }
+          },
+          "additionalProperties": false
+        },
+        "auth": {
+          "type": "object",
+          "required": [
+            "publishableApiKey",
+            "customerAuthentication"
+          ],
+          "properties": {
+            "publishableApiKey": {
+              "type": "boolean"
+            },
+            "customerAuthentication": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "request": {
+          "type": "object",
+          "required": [
+            "method",
+            "path",
+            "headers",
+            "variation"
+          ],
+          "properties": {
+            "method": {
+              "enum": [
+                "GET",
+                "POST",
+                "DELETE"
+              ]
+            },
+            "path": {
+              "type": "string"
+            },
+            "headers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/header"
+              }
+            },
+            "variation": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "expected": {
+          "type": "object",
+          "required": [
+            "status",
+            "assertions"
+          ],
+          "properties": {
+            "status": {
+              "$ref": "#/$defs/status"
+            },
+            "assertions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "automation": {
+          "type": "object",
+          "required": [
+            "status",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "candidate",
+                "approved",
+                "automated",
+                "deferred"
+              ]
+            },
+            "notes": {
+              "type": "string"
+            },
+            "spec": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

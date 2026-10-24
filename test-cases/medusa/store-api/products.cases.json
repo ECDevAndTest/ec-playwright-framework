@@ -1,0 +1,3253 @@
+{
+  "$schema": "./test-case.schema.json",
+  "source": {
+    "api": "Medusa Store API",
+    "version": "2.21.2",
+    "openApi": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml"
+  },
+  "domain": "Products",
+  "generated": true,
+  "caseCount": 80,
+  "cases": [
+    {
+      "id": "MED-STORE-PRODUCTS-001",
+      "title": "List products: default pagination",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit limit and offset and verify documented defaults"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-002",
+      "title": "Retrieve a product: first result",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=1 and offset=0"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-003",
+      "title": "List products: zero limit",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=0"
+      },
+      "expected": {
+        "status": [
+          200,
+          400
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-004",
+      "title": "Retrieve a product: negative limit",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-005",
+      "title": "List products: non-integer limit",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=abc"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-006",
+      "title": "Retrieve a product: large offset",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset beyond the available catalog"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-007",
+      "title": "List products: negative offset",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-008",
+      "title": "Retrieve a product: search by exact title",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set q to an existing product title"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-009",
+      "title": "List products: search by partial title",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set q to a partial product title"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-010",
+      "title": "Retrieve a product: search with no matches",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set q to a unique value that matches no product"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-011",
+      "title": "List products: ascending title order",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request ascending title order"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-012",
+      "title": "Retrieve a product: descending created date order",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request descending created_at order"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-013",
+      "title": "List products: default pagination",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit limit and offset and verify documented defaults"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-014",
+      "title": "Retrieve a product: first result",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=1 and offset=0"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-015",
+      "title": "List products: zero limit",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=0"
+      },
+      "expected": {
+        "status": [
+          200,
+          400
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-016",
+      "title": "Retrieve a product: negative limit",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-017",
+      "title": "List products: non-integer limit",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=abc"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-018",
+      "title": "Retrieve a product: large offset",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset beyond the available catalog"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-019",
+      "title": "List products: negative offset",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-020",
+      "title": "Retrieve a product: search by exact title",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set q to an existing product title"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-021",
+      "title": "List products: search by partial title",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set q to a partial product title"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-022",
+      "title": "Retrieve a product: search with no matches",
+      "domain": "Products",
+      "category": "filters-search-pagination-sorting",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set q to a unique value that matches no product"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-023",
+      "title": "List products: region price context",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request products with a valid region_id"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-024",
+      "title": "Retrieve a product: currency price context",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request products with a valid currency_code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-025",
+      "title": "List products: conflicting price contexts",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send both incompatible region and currency contexts"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-026",
+      "title": "Retrieve a product: unknown region",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a syntactically valid but nonexistent region_id"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-027",
+      "title": "List products: unsupported currency",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request an unsupported currency code"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-028",
+      "title": "Retrieve a product: sales-channel visibility",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify only products associated with the key's sales channel are returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-029",
+      "title": "List products: unpublished product hidden",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify a draft product is not exposed"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-030",
+      "title": "Retrieve a product: variant calculated price",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify variant calculated_price uses the selected context"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-031",
+      "title": "List products: tax-inclusive price",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify tax-inclusive pricing fields for a configured region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-032",
+      "title": "Retrieve a product: zero-price variant",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Retrieve a published variant with a zero amount"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-033",
+      "title": "List products: region price context",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request products with a valid region_id"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-034",
+      "title": "Retrieve a product: currency price context",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request products with a valid currency_code"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-035",
+      "title": "List products: conflicting price contexts",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send both incompatible region and currency contexts"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-036",
+      "title": "Retrieve a product: unknown region",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a syntactically valid but nonexistent region_id"
+      },
+      "expected": {
+        "status": [
+          400,
+          404,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-037",
+      "title": "List products: unsupported currency",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request an unsupported currency code"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-038",
+      "title": "Retrieve a product: sales-channel visibility",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify only products associated with the key's sales channel are returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-039",
+      "title": "List products: unpublished product hidden",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify a draft product is not exposed"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-040",
+      "title": "Retrieve a product: variant calculated price",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify variant calculated_price uses the selected context"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-041",
+      "title": "List products: tax-inclusive price",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify tax-inclusive pricing fields for a configured region"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-042",
+      "title": "Retrieve a product: zero-price variant",
+      "domain": "Products",
+      "category": "pricing-sales-channel",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Retrieve a published variant with a zero amount"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-043",
+      "title": "List products: minimal field selection",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request fields=id,title"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-044",
+      "title": "Retrieve a product: variant relation expansion",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request variants and calculated_price fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-045",
+      "title": "List products: category relation expansion",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request categories.id and categories.name"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-046",
+      "title": "Retrieve a product: unknown field",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request a field not present in the contract"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-047",
+      "title": "List products: excluded field",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Exclude description using fields syntax"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-048",
+      "title": "Retrieve a product: valid locale",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a configured locale and verify translated content"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-049",
+      "title": "List products: minimal field selection",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request fields=id,title"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-050",
+      "title": "Retrieve a product: variant relation expansion",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request variants and calculated_price fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-051",
+      "title": "List products: category relation expansion",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request categories.id and categories.name"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-052",
+      "title": "Retrieve a product: unknown field",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request a field not present in the contract"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-053",
+      "title": "List products: excluded field",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Exclude description using fields syntax"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-054",
+      "title": "Retrieve a product: valid locale",
+      "domain": "Products",
+      "category": "fields-relations-localization",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a configured locale and verify translated content"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-055",
+      "title": "List products: successful response",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send the minimum valid request"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-056",
+      "title": "Retrieve a product: JSON content type",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify Content-Type is application/json"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-057",
+      "title": "List products: identifier format",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify returned product IDs use the product_ prefix"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-058",
+      "title": "Retrieve a product: required properties",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify required product properties are present"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-059",
+      "title": "List products: stable list metadata",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify count, limit, and offset are internally consistent"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-060",
+      "title": "Retrieve a product: successful response",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send the minimum valid request"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-061",
+      "title": "List products: JSON content type",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify Content-Type is application/json"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-062",
+      "title": "Retrieve a product: identifier format",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify returned product IDs use the product_ prefix"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-063",
+      "title": "List products: required properties",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify required product properties are present"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-064",
+      "title": "Retrieve a product: stable list metadata",
+      "domain": "Products",
+      "category": "contracts-happy-paths",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify count, limit, and offset are internally consistent"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-065",
+      "title": "List products: missing publishable API key",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-066",
+      "title": "Retrieve a product: invalid publishable API key",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-067",
+      "title": "List products: nonexistent product ID",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use product_ followed by a nonexistent identifier"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-068",
+      "title": "Retrieve a product: malformed product ID",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-069",
+      "title": "List products: encoded injection payload",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a URL-encoded SQL/script payload as the product ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-070",
+      "title": "Retrieve a product: missing publishable API key",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-071",
+      "title": "List products: invalid publishable API key",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-072",
+      "title": "Retrieve a product: nonexistent product ID",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use product_ followed by a nonexistent identifier"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-073",
+      "title": "List products: malformed product ID",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-074",
+      "title": "Retrieve a product: encoded injection payload",
+      "domain": "Products",
+      "category": "invalid-ids-boundaries-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a URL-encoded SQL/script payload as the product ID"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-075",
+      "title": "List products: list/detail consistency",
+      "domain": "Products",
+      "category": "consistency-performance",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Compare the same product's core fields in list and detail responses"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-076",
+      "title": "Retrieve a product: repeat-read stability",
+      "domain": "Products",
+      "category": "consistency-performance",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Repeat an identical GET and verify stable business fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-077",
+      "title": "List products: concurrent reads",
+      "domain": "Products",
+      "category": "consistency-performance",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue concurrent identical reads and verify successful equivalent contracts"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-078",
+      "title": "Retrieve a product: list/detail consistency",
+      "domain": "Products",
+      "category": "consistency-performance",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Compare the same product's core fields in list and detail responses"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-079",
+      "title": "List products: repeat-read stability",
+      "domain": "Products",
+      "category": "consistency-performance",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/products",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Repeat an identical GET and verify stable business fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-PRODUCTS-080",
+      "title": "Retrieve a product: concurrent reads",
+      "domain": "Products",
+      "category": "consistency-performance",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/products/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A published product exists in the publishable key's sales channel"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/products/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Issue concurrent identical reads and verify successful equivalent contracts"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreProductResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    }
+  ]
+}

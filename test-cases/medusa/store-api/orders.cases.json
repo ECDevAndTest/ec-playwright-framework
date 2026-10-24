@@ -1,0 +1,4410 @@
+{
+  "$schema": "./test-case.schema.json",
+  "source": {
+    "api": "Medusa Store API",
+    "version": "2.21.2",
+    "openApi": "https://raw.githubusercontent.com/medusajs/medusa/6ac9524c/www/apps/api-reference/specs/store/openapi.full.yaml"
+  },
+  "domain": "Orders",
+  "generated": true,
+  "caseCount": 100,
+  "cases": [
+    {
+      "id": "MED-STORE-ORDERS-001",
+      "title": "Accept an order transfer: valid transfer transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute from the documented valid transfer state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-002",
+      "title": "Cancel an order transfer: already accepted transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute after transfer acceptance"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-003",
+      "title": "Decline an order transfer: already declined transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute after transfer decline"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-004",
+      "title": "Request an order transfer: cancel without pending transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Cancel when no transfer is pending"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-005",
+      "title": "Accept an order transfer: transfer completed order",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request transfer for an ineligible completed state"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-006",
+      "title": "Cancel an order transfer: repeat transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Repeat a successful transition"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-007",
+      "title": "Decline an order transfer: valid transfer transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute from the documented valid transfer state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-008",
+      "title": "Request an order transfer: already accepted transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute after transfer acceptance"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-009",
+      "title": "Accept an order transfer: already declined transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute after transfer decline"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-010",
+      "title": "Cancel an order transfer: cancel without pending transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Cancel when no transfer is pending"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-011",
+      "title": "Decline an order transfer: transfer completed order",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request transfer for an ineligible completed state"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-012",
+      "title": "Request an order transfer: repeat transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Repeat a successful transition"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-013",
+      "title": "Accept an order transfer: valid transfer transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute from the documented valid transfer state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-014",
+      "title": "Cancel an order transfer: already accepted transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute after transfer acceptance"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-015",
+      "title": "Decline an order transfer: already declined transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute after transfer decline"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-016",
+      "title": "Request an order transfer: cancel without pending transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Cancel when no transfer is pending"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-017",
+      "title": "Accept an order transfer: transfer completed order",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request transfer for an ineligible completed state"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-018",
+      "title": "Cancel an order transfer: repeat transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Repeat a successful transition"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-019",
+      "title": "Decline an order transfer: valid transfer transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute from the documented valid transfer state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-020",
+      "title": "Request an order transfer: already accepted transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute after transfer acceptance"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-021",
+      "title": "Accept an order transfer: already declined transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute after transfer decline"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-022",
+      "title": "Cancel an order transfer: cancel without pending transfer",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Cancel when no transfer is pending"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-023",
+      "title": "Decline an order transfer: transfer completed order",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request transfer for an ineligible completed state"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-024",
+      "title": "Request an order transfer: repeat transition",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Repeat a successful transition"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-025",
+      "title": "Accept an order transfer: valid transfer transition (dataset 2)",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute from the documented valid transfer state"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-026",
+      "title": "Cancel an order transfer: already accepted transfer (dataset 2)",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Execute after transfer acceptance"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-027",
+      "title": "Decline an order transfer: already declined transfer (dataset 2)",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Execute after transfer decline"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-028",
+      "title": "Request an order transfer: cancel without pending transfer (dataset 2)",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Cancel when no transfer is pending"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-029",
+      "title": "Accept an order transfer: transfer completed order (dataset 2)",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request transfer for an ineligible completed state"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-030",
+      "title": "Cancel an order transfer: repeat transition (dataset 2)",
+      "domain": "Orders",
+      "category": "transfer-lifecycle-state",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Repeat a successful transition"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-031",
+      "title": "List customer orders: owner access",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Access an order owned by the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-032",
+      "title": "Retrieve an order: another customer's order",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt to access another customer's order"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-033",
+      "title": "Accept an order transfer: random order enumeration",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt random syntactically valid order IDs"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-034",
+      "title": "Cancel an order transfer: guest order privacy",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify guest order access requires the documented proof"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-035",
+      "title": "Decline an order transfer: PII minimization",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify payment secrets and internal-only fields are not returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-036",
+      "title": "Request an order transfer: missing customer authentication",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-037",
+      "title": "List customer orders: admin token used as customer",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an Admin API token"
+      },
+      "expected": {
+        "status": [
+          401,
+          403
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 403"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-038",
+      "title": "Retrieve an order: owner access",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Access an order owned by the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-039",
+      "title": "Accept an order transfer: another customer's order",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt to access another customer's order"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-040",
+      "title": "Cancel an order transfer: random order enumeration",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Attempt random syntactically valid order IDs"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-041",
+      "title": "Decline an order transfer: guest order privacy",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Verify guest order access requires the documented proof"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-042",
+      "title": "Request an order transfer: PII minimization",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify payment secrets and internal-only fields are not returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-043",
+      "title": "List customer orders: missing customer authentication",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-044",
+      "title": "Retrieve an order: admin token used as customer",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an Admin API token"
+      },
+      "expected": {
+        "status": [
+          401,
+          403
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 403"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-045",
+      "title": "Accept an order transfer: owner access",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Access an order owned by the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-046",
+      "title": "Cancel an order transfer: another customer's order",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Attempt to access another customer's order"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-047",
+      "title": "Decline an order transfer: random order enumeration",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt random syntactically valid order IDs"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-048",
+      "title": "Request an order transfer: guest order privacy",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify guest order access requires the documented proof"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-049",
+      "title": "List customer orders: PII minimization",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify payment secrets and internal-only fields are not returned"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-050",
+      "title": "Retrieve an order: missing customer authentication",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit both the customer bearer token and customer session cookie"
+      },
+      "expected": {
+        "status": 401,
+        "assertions": [
+          "HTTP status matches 401",
+          "Response does not expose customer-scoped data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-051",
+      "title": "Accept an order transfer: admin token used as customer",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use an Admin API token"
+      },
+      "expected": {
+        "status": [
+          401,
+          403
+        ],
+        "assertions": [
+          "HTTP status matches 401 or 403"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-052",
+      "title": "Cancel an order transfer: owner access",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Access an order owned by the authenticated customer"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-053",
+      "title": "Decline an order transfer: another customer's order",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Attempt to access another customer's order"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-054",
+      "title": "Request an order transfer: random order enumeration",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Attempt random syntactically valid order IDs"
+      },
+      "expected": {
+        "status": [
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-055",
+      "title": "List customer orders: guest order privacy",
+      "domain": "Orders",
+      "category": "ownership-privacy-authorization-idor",
+      "priority": "high",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify guest order access requires the documented proof"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-056",
+      "title": "List customer orders: default pagination",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit limit and offset"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-057",
+      "title": "Retrieve an order: limit one",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-058",
+      "title": "List customer orders: negative limit",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-059",
+      "title": "Retrieve an order: large offset",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset beyond available orders"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-060",
+      "title": "List customer orders: descending created date",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request descending created_at order"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-061",
+      "title": "Retrieve an order: status filter",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Filter by a documented order status"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-062",
+      "title": "List customer orders: list/detail consistency",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Compare core fields between list and detail"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-063",
+      "title": "Retrieve an order: default pagination",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Omit limit and offset"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-064",
+      "title": "List customer orders: limit one",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Set limit=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-065",
+      "title": "Retrieve an order: negative limit",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-066",
+      "title": "List customer orders: large offset",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Set offset beyond available orders"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-067",
+      "title": "Retrieve an order: descending created date",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request descending created_at order"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-068",
+      "title": "List customer orders: status filter",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Filter by a documented order status"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-069",
+      "title": "Retrieve an order: list/detail consistency",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Compare core fields between list and detail"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-070",
+      "title": "List customer orders: default pagination (dataset 2)",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit limit and offset"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-071",
+      "title": "Retrieve an order: limit one (dataset 2)",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set limit=1"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-072",
+      "title": "List customer orders: negative limit (dataset 2)",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Set limit=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-073",
+      "title": "Retrieve an order: large offset (dataset 2)",
+      "domain": "Orders",
+      "category": "list-detail-filter-pagination",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set offset beyond available orders"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-074",
+      "title": "Accept an order transfer: valid transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use the current unexpired token"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-075",
+      "title": "Cancel an order transfer: expired transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an expired transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          401,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-076",
+      "title": "Decline an order transfer: malformed transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a malformed transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          401,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-077",
+      "title": "Request an order transfer: token for another order",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a valid token issued for another order"
+      },
+      "expected": {
+        "status": [
+          400,
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-078",
+      "title": "Accept an order transfer: replayed transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Reuse a consumed transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-079",
+      "title": "Cancel an order transfer: concurrent accept and decline",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Submit accept and decline concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-080",
+      "title": "Decline an order transfer: valid transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use the current unexpired token"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-081",
+      "title": "Request an order transfer: expired transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an expired transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          401,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-082",
+      "title": "Accept an order transfer: malformed transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a malformed transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          401,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-083",
+      "title": "Cancel an order transfer: token for another order",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use a valid token issued for another order"
+      },
+      "expected": {
+        "status": [
+          400,
+          403,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 403 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-084",
+      "title": "Decline an order transfer: replayed transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Reuse a consumed transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-085",
+      "title": "Request an order transfer: concurrent accept and decline",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Submit accept and decline concurrently"
+      },
+      "expected": {
+        "status": [
+          200,
+          400,
+          409
+        ],
+        "assertions": [
+          "HTTP status matches 200 or 400 or 409"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-086",
+      "title": "Accept an order transfer: valid transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use the current unexpired token"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-087",
+      "title": "Cancel an order transfer: expired transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an expired transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          401,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-088",
+      "title": "Decline an order transfer: malformed transfer token",
+      "domain": "Orders",
+      "category": "transfer-token-replay-concurrency",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a malformed transfer token"
+      },
+      "expected": {
+        "status": [
+          400,
+          401,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-089",
+      "title": "List customer orders: minimal fields",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request only id,status,total"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-090",
+      "title": "Retrieve an order: line-item relations",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request item variant and product fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-091",
+      "title": "Accept an order transfer: valid locale",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send a configured locale"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-092",
+      "title": "Cancel an order transfer: status contract",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Verify fulfillment and payment status enums"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-093",
+      "title": "Decline an order transfer: minimal fields",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request only id,status,total"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-094",
+      "title": "Request an order transfer: line-item relations",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated customer owns the order"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/request",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Request item variant and product fields"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-095",
+      "title": "List customer orders: valid locale",
+      "domain": "Orders",
+      "category": "fields-localization-status-contracts",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Send a configured locale"
+      },
+      "expected": {
+        "status": 200,
+        "assertions": [
+          "HTTP status matches 200",
+          "StoreOrderListResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-096",
+      "title": "List customer orders: missing publishable API key",
+      "domain": "Orders",
+      "category": "invalid-id-body-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Omit the x-publishable-api-key header"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400",
+          "Error type is not_allowed",
+          "Message identifies the required publishable API key"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-097",
+      "title": "Retrieve an order: invalid publishable API key",
+      "domain": "Orders",
+      "category": "invalid-id-body-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/orders/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An order exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/orders/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "pk_invalid_test_value"
+          }
+        ],
+        "variation": "Send a syntactically valid but unknown x-publishable-api-key value"
+      },
+      "expected": {
+        "status": [
+          400,
+          401
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 401",
+          "Response does not expose protected Store API data"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-098",
+      "title": "Accept an order transfer: nonexistent order",
+      "domain": "Orders",
+      "category": "invalid-id-body-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/accept",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a syntactically valid nonexistent order ID"
+      },
+      "expected": {
+        "status": 404,
+        "assertions": [
+          "HTTP status matches 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-099",
+      "title": "Cancel an order transfer: malformed order ID",
+      "domain": "Orders",
+      "category": "invalid-id-body-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": true
+      },
+      "preconditions": [
+        "The authenticated owner has a pending transfer"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/cancel",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer ${CUSTOMER_JWT}"
+          }
+        ],
+        "variation": "Use an identifier with the wrong prefix"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-ORDERS-100",
+      "title": "Decline an order transfer: malformed JSON body",
+      "domain": "Orders",
+      "category": "invalid-id-body-publishable-key",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "A pending transfer and valid transfer token exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/orders/{id}/transfer/decline",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Send malformed JSON to a transfer mutation"
+      },
+      "expected": {
+        "status": 400,
+        "assertions": [
+          "HTTP status matches 400"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    }
+  ]
+}
