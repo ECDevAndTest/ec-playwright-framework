@@ -5,6 +5,7 @@ A production-oriented Playwright and TypeScript automation framework targeting a
 ## Current coverage
 
 - Medusa backend health check
+- Store and Auth API smoke status check
 - Store API cart creation
 - Product lookup by stable handle
 - Adding a dynamically resolved product variant to a cart
@@ -20,7 +21,7 @@ src/api/
 ├── fixtures/      # Typed Playwright dependency injection
 └── types/         # Request and response contracts
 
-tests/medusa/api/  # Executable Playwright API specifications
+tests/medusa/api/  # API specs, including the store smoke check
 test-cases/        # Generated risk-based test-case candidates
 scripts/           # Test-case and catalog generators
 ```
@@ -62,7 +63,23 @@ npm test
 npm run test:headed
 npm run test:ui
 npm run report
+npx playwright test tests/medusa/api/store-smoke.spec.ts --project=chromium
 ```
+
+## Store smoke check
+
+`tests/medusa/api/store-smoke.spec.ts` calls each mounted Store and Auth route once. The route table lives in `tests/medusa/api/store-smoke.endpoints.ts`.
+
+Each call sends the publishable key with an unknown id or an invalid body. The expected status shows that the route is mounted:
+
+- `200` — a public read succeeded
+- `400` — validation rejected the body before anything was written
+- `401` — the route required a customer or admin session
+- `404` — the route exists and the fake id does not
+
+`POST /store/carts` uses an invalid email, so the smoke run does not create a cart. `GET /store/locales` is omitted because Medusa mounts it only when the translation feature flag is on. Admin routes are a separate API and are not part of this check.
+
+`DELETE /store/carts/{id}/line-items/{line_id}` is an expected failure. Medusa currently returns `500` when the cart does not exist, and the spec still expects `404`. Playwright marks that test with `x`. The run exits 0. If Medusa starts returning `404`, that mark becomes a real failure so the expected status can be updated.
 
 ## Design principles
 
