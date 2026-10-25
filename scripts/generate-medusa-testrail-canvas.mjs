@@ -169,7 +169,7 @@ function App() {
         <Stack gap={5}>
           <H1>Medusa Store API test catalog</H1>
           <Text tone="secondary">
-            TestRail-style view of 500 generated candidates for Medusa v2.21.2.
+            TestRail-style view of 495 generated candidates for Medusa v2.21.2.
           </Text>
         </Stack>
         <Row gap={22} align="start">
