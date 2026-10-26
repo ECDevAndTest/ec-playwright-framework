@@ -1,5 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+
+function projectRoot(start: string) {
+  let directory = path.resolve(start);
+
+  while (!fs.existsSync(path.join(directory, 'playwright.config.ts'))) {
+    const parent = path.dirname(directory);
+    if (parent === directory) {
+      return path.resolve(start);
+    }
+    directory = parent;
+  }
+
+  return directory;
+}
+
+dotenv.config({ path: path.join(projectRoot(process.cwd()), '.env') });
 
 const isCI = !!process.env.CI;
 
@@ -20,7 +38,7 @@ export default defineConfig({
   expect: { timeout: 5_000 },
 
   use: {
-    baseURL: 'http://localhost:9000',
+    baseURL: process.env.MEDUSA_BASE_URL ?? 'http://localhost:9000',
     trace: isCI ? 'on-first-retry' : 'retain-on-failure',
     screenshot: 'on',
     video: 'on',
