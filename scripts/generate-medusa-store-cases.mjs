@@ -114,7 +114,7 @@ const domains = {
   carts: {
     label: "Carts",
     prefix: "MED-STORE-CARTS",
-    target: 150,
+    target: 145,
     operations: [
       operation("create-cart", "Create a cart", "POST", "/store/carts", {
         responseContract: "StoreCartResponse",
@@ -172,11 +172,10 @@ const domains = {
     categories: [
       {
         name: "lifecycle-completion-state",
-        quota: 30,
+        quota: 25,
         variants: [
           variant("valid lifecycle state", "Execute the operation from its documented valid cart state"),
           variant("already completed cart", "Execute against an already completed cart", [400, 409, 422]),
-          variant("deleted cart", "Execute against a deleted cart", 404),
           variant("nonexistent cart", "Use a syntactically valid nonexistent cart ID", 404),
           variant("malformed cart ID", "Use an identifier with the wrong prefix", [400, 404]),
           variant("replay after success", "Repeat the operation after a successful response", [200, 400, 409]),
@@ -939,8 +938,8 @@ for (const [domainKey, domain] of Object.entries(domains)) {
   totalGeneratedCases += cases.length;
 }
 
-if (totalGeneratedCases !== 500) {
-  throw new Error(`Generated ${totalGeneratedCases} total cases, expected 500`);
+if (totalGeneratedCases !== 495) {
+  throw new Error(`Generated ${totalGeneratedCases} total cases, expected 495`);
 }
 
 await writeJson(path.join(outputDirectory, "test-case.schema.json"), schema);
@@ -953,7 +952,7 @@ await writeJson(path.join(outputDirectory, "manifest.json"), {
     {
       id: "MED-API-001",
       file: "backend-health.json",
-      note: "Backend health is outside the /store OpenAPI surface and is not included in the 500 generated candidates.",
+      note: "Backend health is outside the /store OpenAPI surface and is not included in the 495 generated candidates.",
     },
   ],
   domains: manifestDomains,

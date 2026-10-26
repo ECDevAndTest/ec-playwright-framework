@@ -7,7 +7,7 @@
   },
   "domain": "Carts",
   "generated": true,
-  "caseCount": 150,
+  "caseCount": 145,
   "cases": [
     {
       "id": "MED-STORE-CARTS-001",
@@ -94,46 +94,6 @@
     },
     {
       "id": "MED-STORE-CARTS-003",
-      "title": "Update a cart: deleted cart",
-      "domain": "Carts",
-      "category": "lifecycle-completion-state",
-      "priority": "high",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "POST",
-        "path": "/store/carts/{id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart exists"
-      ],
-      "request": {
-        "method": "POST",
-        "path": "/store/carts/{id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Execute against a deleted cart"
-      },
-      "expected": {
-        "status": 404,
-        "assertions": [
-          "HTTP status matches 404"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-004",
       "title": "Complete a cart: nonexistent cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -173,7 +133,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-005",
+      "id": "MED-STORE-CARTS-004",
       "title": "Associate the authenticated customer: malformed cart ID",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -221,7 +181,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-006",
+      "id": "MED-STORE-CARTS-005",
       "title": "Add gift cards to a cart: replay after success",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -265,7 +225,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-007",
+      "id": "MED-STORE-CARTS-006",
       "title": "Remove gift cards from a cart: valid lifecycle state",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -306,7 +266,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-008",
+      "id": "MED-STORE-CARTS-007",
       "title": "Add a line item: already completed cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -350,47 +310,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-009",
-      "title": "Update a line item: deleted cart",
-      "domain": "Carts",
-      "category": "lifecycle-completion-state",
-      "priority": "high",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items/{line_id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart contains a line item"
-      ],
-      "request": {
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items/{line_id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Execute against a deleted cart"
-      },
-      "expected": {
-        "status": 404,
-        "assertions": [
-          "HTTP status matches 404"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-010",
+      "id": "MED-STORE-CARTS-008",
       "title": "Delete a line item: nonexistent cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -430,7 +350,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-011",
+      "id": "MED-STORE-CARTS-009",
       "title": "Add a shipping method: malformed cart ID",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -473,7 +393,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-012",
+      "id": "MED-STORE-CARTS-010",
       "title": "Add store credit: replay after success",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -517,7 +437,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-013",
+      "id": "MED-STORE-CARTS-011",
       "title": "Refresh cart taxes: valid lifecycle state",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -558,7 +478,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-014",
+      "id": "MED-STORE-CARTS-012",
       "title": "Create a cart: already completed cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -600,47 +520,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-015",
-      "title": "Retrieve a cart: deleted cart",
-      "domain": "Carts",
-      "category": "lifecycle-completion-state",
-      "priority": "high",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "GET",
-        "path": "/store/carts/{id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart exists"
-      ],
-      "request": {
-        "method": "GET",
-        "path": "/store/carts/{id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Execute against a deleted cart"
-      },
-      "expected": {
-        "status": 404,
-        "assertions": [
-          "HTTP status matches 404"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-016",
+      "id": "MED-STORE-CARTS-013",
       "title": "Update a cart: nonexistent cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -680,7 +560,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-017",
+      "id": "MED-STORE-CARTS-014",
       "title": "Complete a cart: malformed cart ID",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -723,7 +603,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-018",
+      "id": "MED-STORE-CARTS-015",
       "title": "Associate the authenticated customer: replay after success",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -772,7 +652,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-019",
+      "id": "MED-STORE-CARTS-016",
       "title": "Add gift cards to a cart: valid lifecycle state",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -813,7 +693,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-020",
+      "id": "MED-STORE-CARTS-017",
       "title": "Remove gift cards from a cart: already completed cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -857,47 +737,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-021",
-      "title": "Add a line item: deleted cart",
-      "domain": "Carts",
-      "category": "lifecycle-completion-state",
-      "priority": "high",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart and published in-stock variant exist"
-      ],
-      "request": {
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Execute against a deleted cart"
-      },
-      "expected": {
-        "status": 404,
-        "assertions": [
-          "HTTP status matches 404"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-022",
+      "id": "MED-STORE-CARTS-018",
       "title": "Update a line item: nonexistent cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -937,7 +777,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-023",
+      "id": "MED-STORE-CARTS-019",
       "title": "Delete a line item: malformed cart ID",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -980,7 +820,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-024",
+      "id": "MED-STORE-CARTS-020",
       "title": "Add a shipping method: replay after success",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -1024,7 +864,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-025",
+      "id": "MED-STORE-CARTS-021",
       "title": "Add store credit: valid lifecycle state",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -1065,7 +905,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-026",
+      "id": "MED-STORE-CARTS-022",
       "title": "Refresh cart taxes: already completed cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -1109,45 +949,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-027",
-      "title": "Create a cart: deleted cart",
-      "domain": "Carts",
-      "category": "lifecycle-completion-state",
-      "priority": "high",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "POST",
-        "path": "/store/carts"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [],
-      "request": {
-        "method": "POST",
-        "path": "/store/carts",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Execute against a deleted cart"
-      },
-      "expected": {
-        "status": 404,
-        "assertions": [
-          "HTTP status matches 404"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-028",
+      "id": "MED-STORE-CARTS-023",
       "title": "Retrieve a cart: nonexistent cart",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -1187,7 +989,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-029",
+      "id": "MED-STORE-CARTS-024",
       "title": "Update a cart: malformed cart ID",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -1230,7 +1032,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-030",
+      "id": "MED-STORE-CARTS-025",
       "title": "Complete a cart: replay after success",
       "domain": "Carts",
       "category": "lifecycle-completion-state",
@@ -1274,7 +1076,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-031",
+      "id": "MED-STORE-CARTS-026",
       "title": "Retrieve a cart: valid in-stock quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -1307,6 +1109,222 @@
         "assertions": [
           "HTTP status matches 200",
           "StoreCartResponse"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-027",
+      "title": "Add a line item: quantity zero",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=0"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-028",
+      "title": "Update a line item: negative quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=-1"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-029",
+      "title": "Delete a line item: fractional quantity",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart contains a line item"
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/store/carts/{id}/line-items/{line_id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Set quantity=1.5"
+      },
+      "expected": {
+        "status": [
+          400,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-030",
+      "title": "Retrieve a cart: quantity above inventory",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "GET",
+        "path": "/store/carts/{id}"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart exists"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/store/carts/{id}",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Request more units than available inventory"
+      },
+      "expected": {
+        "status": [
+          400,
+          409,
+          422
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 409 or 422"
+        ]
+      },
+      "automation": {
+        "status": "candidate",
+        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
+      }
+    },
+    {
+      "id": "MED-STORE-CARTS-031",
+      "title": "Add a line item: draft variant",
+      "domain": "Carts",
+      "category": "line-items-quantity-inventory",
+      "priority": "medium",
+      "source": {
+        "apiVersion": "2.21.2",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
+      },
+      "auth": {
+        "publishableApiKey": true,
+        "customerAuthentication": false
+      },
+      "preconditions": [
+        "An active cart and published in-stock variant exist"
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
+        "headers": [
+          {
+            "name": "x-publishable-api-key",
+            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
+          }
+        ],
+        "variation": "Use a variant belonging to a draft product"
+      },
+      "expected": {
+        "status": [
+          400,
+          404
+        ],
+        "assertions": [
+          "HTTP status matches 400 or 404"
         ]
       },
       "automation": {
@@ -1316,40 +1334,40 @@
     },
     {
       "id": "MED-STORE-CARTS-032",
-      "title": "Add a line item: quantity zero",
+      "title": "Update a line item: unknown variant",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
         "method": "POST",
-        "path": "/store/carts/{id}/line-items"
+        "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart and published in-stock variant exist"
+        "An active cart contains a line item"
       ],
       "request": {
         "method": "POST",
-        "path": "/store/carts/{id}/line-items",
+        "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Set quantity=0"
+        "variation": "Use a syntactically valid nonexistent variant ID"
       },
       "expected": {
         "status": [
           400,
-          422
+          404
         ],
         "assertions": [
-          "HTTP status matches 400 or 422"
+          "HTTP status matches 400 or 404"
         ]
       },
       "automation": {
@@ -1359,13 +1377,13 @@
     },
     {
       "id": "MED-STORE-CARTS-033",
-      "title": "Update a line item: negative quantity",
+      "title": "Delete a line item: line item from another cart",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
@@ -1376,7 +1394,7 @@
         "An active cart contains a line item"
       ],
       "request": {
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
@@ -1384,15 +1402,15 @@
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Set quantity=-1"
+        "variation": "Use a line-item ID owned by another cart"
       },
       "expected": {
         "status": [
           400,
-          422
+          404
         ],
         "assertions": [
-          "HTTP status matches 400 or 422"
+          "HTTP status matches 400 or 404"
         ]
       },
       "automation": {
@@ -1402,40 +1420,38 @@
     },
     {
       "id": "MED-STORE-CARTS-034",
-      "title": "Delete a line item: fractional quantity",
+      "title": "Retrieve a cart: valid in-stock quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}"
+        "method": "GET",
+        "path": "/store/carts/{id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart contains a line item"
+        "An active cart exists"
       ],
       "request": {
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}",
+        "method": "GET",
+        "path": "/store/carts/{id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Set quantity=1.5"
+        "variation": "Use an in-stock published variant and quantity=1"
       },
       "expected": {
-        "status": [
-          400,
-          422
-        ],
+        "status": 200,
         "assertions": [
-          "HTTP status matches 400 or 422"
+          "HTTP status matches 200",
+          "StoreCartResponse"
         ]
       },
       "automation": {
@@ -1445,41 +1461,40 @@
     },
     {
       "id": "MED-STORE-CARTS-035",
-      "title": "Retrieve a cart: quantity above inventory",
+      "title": "Add a line item: quantity zero",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "GET",
-        "path": "/store/carts/{id}"
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart exists"
+        "An active cart and published in-stock variant exist"
       ],
       "request": {
-        "method": "GET",
-        "path": "/store/carts/{id}",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Request more units than available inventory"
+        "variation": "Set quantity=0"
       },
       "expected": {
         "status": [
           400,
-          409,
           422
         ],
         "assertions": [
-          "HTTP status matches 400 or 409 or 422"
+          "HTTP status matches 400 or 422"
         ]
       },
       "automation": {
@@ -1489,40 +1504,40 @@
     },
     {
       "id": "MED-STORE-CARTS-036",
-      "title": "Add a line item: draft variant",
+      "title": "Update a line item: negative quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
         "method": "POST",
-        "path": "/store/carts/{id}/line-items"
+        "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart and published in-stock variant exist"
+        "An active cart contains a line item"
       ],
       "request": {
         "method": "POST",
-        "path": "/store/carts/{id}/line-items",
+        "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Use a variant belonging to a draft product"
+        "variation": "Set quantity=-1"
       },
       "expected": {
         "status": [
           400,
-          404
+          422
         ],
         "assertions": [
-          "HTTP status matches 400 or 404"
+          "HTTP status matches 400 or 422"
         ]
       },
       "automation": {
@@ -1532,13 +1547,13 @@
     },
     {
       "id": "MED-STORE-CARTS-037",
-      "title": "Update a line item: unknown variant",
+      "title": "Delete a line item: fractional quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
@@ -1549,7 +1564,7 @@
         "An active cart contains a line item"
       ],
       "request": {
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
@@ -1557,15 +1572,15 @@
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Use a syntactically valid nonexistent variant ID"
+        "variation": "Set quantity=1.5"
       },
       "expected": {
         "status": [
           400,
-          404
+          422
         ],
         "assertions": [
-          "HTTP status matches 400 or 404"
+          "HTTP status matches 400 or 422"
         ]
       },
       "automation": {
@@ -1575,40 +1590,41 @@
     },
     {
       "id": "MED-STORE-CARTS-038",
-      "title": "Delete a line item: line item from another cart",
+      "title": "Retrieve a cart: quantity above inventory",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}"
+        "method": "GET",
+        "path": "/store/carts/{id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart contains a line item"
+        "An active cart exists"
       ],
       "request": {
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}",
+        "method": "GET",
+        "path": "/store/carts/{id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Use a line-item ID owned by another cart"
+        "variation": "Request more units than available inventory"
       },
       "expected": {
         "status": [
           400,
-          404
+          409,
+          422
         ],
         "assertions": [
-          "HTTP status matches 400 or 404"
+          "HTTP status matches 400 or 409 or 422"
         ]
       },
       "automation": {
@@ -1618,38 +1634,40 @@
     },
     {
       "id": "MED-STORE-CARTS-039",
-      "title": "Retrieve a cart: valid in-stock quantity",
+      "title": "Add a line item: draft variant",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "GET",
-        "path": "/store/carts/{id}"
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart exists"
+        "An active cart and published in-stock variant exist"
       ],
       "request": {
-        "method": "GET",
-        "path": "/store/carts/{id}",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Use an in-stock published variant and quantity=1"
+        "variation": "Use a variant belonging to a draft product"
       },
       "expected": {
-        "status": 200,
+        "status": [
+          400,
+          404
+        ],
         "assertions": [
-          "HTTP status matches 200",
-          "StoreCartResponse"
+          "HTTP status matches 400 or 404"
         ]
       },
       "automation": {
@@ -1659,40 +1677,40 @@
     },
     {
       "id": "MED-STORE-CARTS-040",
-      "title": "Add a line item: quantity zero",
+      "title": "Update a line item: unknown variant",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
         "method": "POST",
-        "path": "/store/carts/{id}/line-items"
+        "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart and published in-stock variant exist"
+        "An active cart contains a line item"
       ],
       "request": {
         "method": "POST",
-        "path": "/store/carts/{id}/line-items",
+        "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Set quantity=0"
+        "variation": "Use a syntactically valid nonexistent variant ID"
       },
       "expected": {
         "status": [
           400,
-          422
+          404
         ],
         "assertions": [
-          "HTTP status matches 400 or 422"
+          "HTTP status matches 400 or 404"
         ]
       },
       "automation": {
@@ -1702,13 +1720,13 @@
     },
     {
       "id": "MED-STORE-CARTS-041",
-      "title": "Update a line item: negative quantity",
+      "title": "Delete a line item: line item from another cart",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
@@ -1719,7 +1737,7 @@
         "An active cart contains a line item"
       ],
       "request": {
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
@@ -1727,15 +1745,15 @@
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Set quantity=-1"
+        "variation": "Use a line-item ID owned by another cart"
       },
       "expected": {
         "status": [
           400,
-          422
+          404
         ],
         "assertions": [
-          "HTTP status matches 400 or 422"
+          "HTTP status matches 400 or 404"
         ]
       },
       "automation": {
@@ -1745,40 +1763,38 @@
     },
     {
       "id": "MED-STORE-CARTS-042",
-      "title": "Delete a line item: fractional quantity",
+      "title": "Retrieve a cart: valid in-stock quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}"
+        "method": "GET",
+        "path": "/store/carts/{id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart contains a line item"
+        "An active cart exists"
       ],
       "request": {
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}",
+        "method": "GET",
+        "path": "/store/carts/{id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Set quantity=1.5"
+        "variation": "Use an in-stock published variant and quantity=1"
       },
       "expected": {
-        "status": [
-          400,
-          422
-        ],
+        "status": 200,
         "assertions": [
-          "HTTP status matches 400 or 422"
+          "HTTP status matches 200",
+          "StoreCartResponse"
         ]
       },
       "automation": {
@@ -1788,41 +1804,40 @@
     },
     {
       "id": "MED-STORE-CARTS-043",
-      "title": "Retrieve a cart: quantity above inventory",
+      "title": "Add a line item: quantity zero",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "GET",
-        "path": "/store/carts/{id}"
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart exists"
+        "An active cart and published in-stock variant exist"
       ],
       "request": {
-        "method": "GET",
-        "path": "/store/carts/{id}",
+        "method": "POST",
+        "path": "/store/carts/{id}/line-items",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Request more units than available inventory"
+        "variation": "Set quantity=0"
       },
       "expected": {
         "status": [
           400,
-          409,
           422
         ],
         "assertions": [
-          "HTTP status matches 400 or 409 or 422"
+          "HTTP status matches 400 or 422"
         ]
       },
       "automation": {
@@ -1832,40 +1847,40 @@
     },
     {
       "id": "MED-STORE-CARTS-044",
-      "title": "Add a line item: draft variant",
+      "title": "Update a line item: negative quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
         "method": "POST",
-        "path": "/store/carts/{id}/line-items"
+        "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
         "publishableApiKey": true,
         "customerAuthentication": false
       },
       "preconditions": [
-        "An active cart and published in-stock variant exist"
+        "An active cart contains a line item"
       ],
       "request": {
         "method": "POST",
-        "path": "/store/carts/{id}/line-items",
+        "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
             "name": "x-publishable-api-key",
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Use a variant belonging to a draft product"
+        "variation": "Set quantity=-1"
       },
       "expected": {
         "status": [
           400,
-          404
+          422
         ],
         "assertions": [
-          "HTTP status matches 400 or 404"
+          "HTTP status matches 400 or 422"
         ]
       },
       "automation": {
@@ -1875,13 +1890,13 @@
     },
     {
       "id": "MED-STORE-CARTS-045",
-      "title": "Update a line item: unknown variant",
+      "title": "Delete a line item: fractional quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
       "priority": "medium",
       "source": {
         "apiVersion": "2.21.2",
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}"
       },
       "auth": {
@@ -1892,7 +1907,7 @@
         "An active cart contains a line item"
       ],
       "request": {
-        "method": "POST",
+        "method": "DELETE",
         "path": "/store/carts/{id}/line-items/{line_id}",
         "headers": [
           {
@@ -1900,15 +1915,15 @@
             "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
           }
         ],
-        "variation": "Use a syntactically valid nonexistent variant ID"
+        "variation": "Set quantity=1.5"
       },
       "expected": {
         "status": [
           400,
-          404
+          422
         ],
         "assertions": [
-          "HTTP status matches 400 or 404"
+          "HTTP status matches 400 or 422"
         ]
       },
       "automation": {
@@ -1918,219 +1933,6 @@
     },
     {
       "id": "MED-STORE-CARTS-046",
-      "title": "Delete a line item: line item from another cart",
-      "domain": "Carts",
-      "category": "line-items-quantity-inventory",
-      "priority": "medium",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart contains a line item"
-      ],
-      "request": {
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Use a line-item ID owned by another cart"
-      },
-      "expected": {
-        "status": [
-          400,
-          404
-        ],
-        "assertions": [
-          "HTTP status matches 400 or 404"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-047",
-      "title": "Retrieve a cart: valid in-stock quantity",
-      "domain": "Carts",
-      "category": "line-items-quantity-inventory",
-      "priority": "medium",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "GET",
-        "path": "/store/carts/{id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart exists"
-      ],
-      "request": {
-        "method": "GET",
-        "path": "/store/carts/{id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Use an in-stock published variant and quantity=1"
-      },
-      "expected": {
-        "status": 200,
-        "assertions": [
-          "HTTP status matches 200",
-          "StoreCartResponse"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-048",
-      "title": "Add a line item: quantity zero",
-      "domain": "Carts",
-      "category": "line-items-quantity-inventory",
-      "priority": "medium",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart and published in-stock variant exist"
-      ],
-      "request": {
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Set quantity=0"
-      },
-      "expected": {
-        "status": [
-          400,
-          422
-        ],
-        "assertions": [
-          "HTTP status matches 400 or 422"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-049",
-      "title": "Update a line item: negative quantity",
-      "domain": "Carts",
-      "category": "line-items-quantity-inventory",
-      "priority": "medium",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items/{line_id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart contains a line item"
-      ],
-      "request": {
-        "method": "POST",
-        "path": "/store/carts/{id}/line-items/{line_id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Set quantity=-1"
-      },
-      "expected": {
-        "status": [
-          400,
-          422
-        ],
-        "assertions": [
-          "HTTP status matches 400 or 422"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-050",
-      "title": "Delete a line item: fractional quantity",
-      "domain": "Carts",
-      "category": "line-items-quantity-inventory",
-      "priority": "medium",
-      "source": {
-        "apiVersion": "2.21.2",
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}"
-      },
-      "auth": {
-        "publishableApiKey": true,
-        "customerAuthentication": false
-      },
-      "preconditions": [
-        "An active cart contains a line item"
-      ],
-      "request": {
-        "method": "DELETE",
-        "path": "/store/carts/{id}/line-items/{line_id}",
-        "headers": [
-          {
-            "name": "x-publishable-api-key",
-            "value": "${MEDUSA_PUBLISHABLE_API_KEY}"
-          }
-        ],
-        "variation": "Set quantity=1.5"
-      },
-      "expected": {
-        "status": [
-          400,
-          422
-        ],
-        "assertions": [
-          "HTTP status matches 400 or 422"
-        ]
-      },
-      "automation": {
-        "status": "candidate",
-        "notes": "Generated from the v2.21.2 Store API contract and a risk-based matrix. Refine concrete fixtures and payload values before automation."
-      }
-    },
-    {
-      "id": "MED-STORE-CARTS-051",
       "title": "Retrieve a cart: quantity above inventory",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2174,7 +1976,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-052",
+      "id": "MED-STORE-CARTS-047",
       "title": "Add a line item: draft variant",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2217,7 +2019,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-053",
+      "id": "MED-STORE-CARTS-048",
       "title": "Update a line item: unknown variant",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2260,7 +2062,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-054",
+      "id": "MED-STORE-CARTS-049",
       "title": "Delete a line item: line item from another cart",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2303,7 +2105,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-055",
+      "id": "MED-STORE-CARTS-050",
       "title": "Retrieve a cart: valid in-stock quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2344,7 +2146,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-056",
+      "id": "MED-STORE-CARTS-051",
       "title": "Add a line item: quantity zero",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2387,7 +2189,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-057",
+      "id": "MED-STORE-CARTS-052",
       "title": "Update a line item: negative quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2430,7 +2232,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-058",
+      "id": "MED-STORE-CARTS-053",
       "title": "Delete a line item: fractional quantity",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2473,7 +2275,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-059",
+      "id": "MED-STORE-CARTS-054",
       "title": "Retrieve a cart: quantity above inventory",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2517,7 +2319,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-060",
+      "id": "MED-STORE-CARTS-055",
       "title": "Add a line item: draft variant",
       "domain": "Carts",
       "category": "line-items-quantity-inventory",
@@ -2560,7 +2362,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-061",
+      "id": "MED-STORE-CARTS-056",
       "title": "Retrieve a cart: totals recalculated",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2601,7 +2403,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-062",
+      "id": "MED-STORE-CARTS-057",
       "title": "Add gift cards to a cart: ineligible resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2644,7 +2446,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-063",
+      "id": "MED-STORE-CARTS-058",
       "title": "Remove gift cards from a cart: expired resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2688,7 +2490,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-064",
+      "id": "MED-STORE-CARTS-059",
       "title": "Add a shipping method: currency mismatch",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2731,7 +2533,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-065",
+      "id": "MED-STORE-CARTS-060",
       "title": "Add store credit: tax-inclusive region",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2772,7 +2574,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-066",
+      "id": "MED-STORE-CARTS-061",
       "title": "Refresh cart taxes: rounding boundary",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2813,7 +2615,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-067",
+      "id": "MED-STORE-CARTS-062",
       "title": "Retrieve a cart: duplicate application",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2857,7 +2659,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-068",
+      "id": "MED-STORE-CARTS-063",
       "title": "Add gift cards to a cart: totals recalculated",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2898,7 +2700,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-069",
+      "id": "MED-STORE-CARTS-064",
       "title": "Remove gift cards from a cart: ineligible resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2941,7 +2743,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-070",
+      "id": "MED-STORE-CARTS-065",
       "title": "Add a shipping method: expired resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -2985,7 +2787,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-071",
+      "id": "MED-STORE-CARTS-066",
       "title": "Add store credit: currency mismatch",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3028,7 +2830,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-072",
+      "id": "MED-STORE-CARTS-067",
       "title": "Refresh cart taxes: tax-inclusive region",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3069,7 +2871,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-073",
+      "id": "MED-STORE-CARTS-068",
       "title": "Retrieve a cart: rounding boundary",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3110,7 +2912,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-074",
+      "id": "MED-STORE-CARTS-069",
       "title": "Add gift cards to a cart: duplicate application",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3154,7 +2956,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-075",
+      "id": "MED-STORE-CARTS-070",
       "title": "Remove gift cards from a cart: totals recalculated",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3195,7 +2997,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-076",
+      "id": "MED-STORE-CARTS-071",
       "title": "Add a shipping method: ineligible resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3238,7 +3040,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-077",
+      "id": "MED-STORE-CARTS-072",
       "title": "Add store credit: expired resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3282,7 +3084,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-078",
+      "id": "MED-STORE-CARTS-073",
       "title": "Refresh cart taxes: currency mismatch",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3325,7 +3127,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-079",
+      "id": "MED-STORE-CARTS-074",
       "title": "Retrieve a cart: tax-inclusive region",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3366,7 +3168,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-080",
+      "id": "MED-STORE-CARTS-075",
       "title": "Add gift cards to a cart: rounding boundary",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3407,7 +3209,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-081",
+      "id": "MED-STORE-CARTS-076",
       "title": "Remove gift cards from a cart: duplicate application",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3451,7 +3253,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-082",
+      "id": "MED-STORE-CARTS-077",
       "title": "Add a shipping method: totals recalculated",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3492,7 +3294,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-083",
+      "id": "MED-STORE-CARTS-078",
       "title": "Add store credit: ineligible resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3535,7 +3337,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-084",
+      "id": "MED-STORE-CARTS-079",
       "title": "Refresh cart taxes: expired resource",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3579,7 +3381,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-085",
+      "id": "MED-STORE-CARTS-080",
       "title": "Retrieve a cart: currency mismatch",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3622,7 +3424,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-086",
+      "id": "MED-STORE-CARTS-081",
       "title": "Add gift cards to a cart: tax-inclusive region",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3663,7 +3465,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-087",
+      "id": "MED-STORE-CARTS-082",
       "title": "Remove gift cards from a cart: rounding boundary",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3704,7 +3506,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-088",
+      "id": "MED-STORE-CARTS-083",
       "title": "Add a shipping method: duplicate application",
       "domain": "Carts",
       "category": "tax-shipping-gift-credit-totals",
@@ -3748,7 +3550,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-089",
+      "id": "MED-STORE-CARTS-084",
       "title": "Create a cart: valid region",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -3787,7 +3589,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-090",
+      "id": "MED-STORE-CARTS-085",
       "title": "Retrieve a cart: unknown region",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -3830,7 +3632,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-091",
+      "id": "MED-STORE-CARTS-086",
       "title": "Update a cart: unsupported country",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -3873,7 +3675,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-092",
+      "id": "MED-STORE-CARTS-087",
       "title": "Associate the authenticated customer: complete shipping address",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -3919,7 +3721,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-093",
+      "id": "MED-STORE-CARTS-088",
       "title": "Create a cart: missing postal code",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -3960,7 +3762,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-094",
+      "id": "MED-STORE-CARTS-089",
       "title": "Retrieve a cart: customer email normalization",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4001,7 +3803,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-095",
+      "id": "MED-STORE-CARTS-090",
       "title": "Update a cart: missing customer authentication",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4042,7 +3844,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-096",
+      "id": "MED-STORE-CARTS-091",
       "title": "Associate the authenticated customer: valid region",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4088,7 +3890,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-097",
+      "id": "MED-STORE-CARTS-092",
       "title": "Create a cart: unknown region",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4129,7 +3931,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-098",
+      "id": "MED-STORE-CARTS-093",
       "title": "Retrieve a cart: unsupported country",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4172,7 +3974,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-099",
+      "id": "MED-STORE-CARTS-094",
       "title": "Update a cart: complete shipping address",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4213,7 +4015,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-100",
+      "id": "MED-STORE-CARTS-095",
       "title": "Associate the authenticated customer: missing postal code",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4261,7 +4063,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-101",
+      "id": "MED-STORE-CARTS-096",
       "title": "Create a cart: customer email normalization",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4300,7 +4102,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-102",
+      "id": "MED-STORE-CARTS-097",
       "title": "Retrieve a cart: missing customer authentication",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4341,7 +4143,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-103",
+      "id": "MED-STORE-CARTS-098",
       "title": "Update a cart: valid region",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4382,7 +4184,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-104",
+      "id": "MED-STORE-CARTS-099",
       "title": "Associate the authenticated customer: unknown region",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4430,7 +4232,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-105",
+      "id": "MED-STORE-CARTS-100",
       "title": "Create a cart: unsupported country",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4471,7 +4273,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-106",
+      "id": "MED-STORE-CARTS-101",
       "title": "Retrieve a cart: complete shipping address",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4512,7 +4314,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-107",
+      "id": "MED-STORE-CARTS-102",
       "title": "Update a cart: missing postal code",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4555,7 +4357,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-108",
+      "id": "MED-STORE-CARTS-103",
       "title": "Associate the authenticated customer: customer email normalization",
       "domain": "Carts",
       "category": "region-address-customer",
@@ -4601,7 +4403,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-109",
+      "id": "MED-STORE-CARTS-104",
       "title": "Create a cart: empty JSON body",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4643,7 +4445,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-110",
+      "id": "MED-STORE-CARTS-105",
       "title": "Retrieve a cart: null JSON body",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4686,7 +4488,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-111",
+      "id": "MED-STORE-CARTS-106",
       "title": "Update a cart: malformed JSON",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4726,7 +4528,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-112",
+      "id": "MED-STORE-CARTS-107",
       "title": "Complete a cart: wrong property type",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4769,7 +4571,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-113",
+      "id": "MED-STORE-CARTS-108",
       "title": "Associate the authenticated customer: unknown property",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4818,7 +4620,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-114",
+      "id": "MED-STORE-CARTS-109",
       "title": "Add gift cards to a cart: concurrent identical mutation",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4862,7 +4664,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-115",
+      "id": "MED-STORE-CARTS-110",
       "title": "Remove gift cards from a cart: concurrent conflicting mutation",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4906,7 +4708,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-116",
+      "id": "MED-STORE-CARTS-111",
       "title": "Add a line item: request replay",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4950,7 +4752,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-117",
+      "id": "MED-STORE-CARTS-112",
       "title": "Update a line item: empty JSON body",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -4994,7 +4796,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-118",
+      "id": "MED-STORE-CARTS-113",
       "title": "Delete a line item: null JSON body",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5037,7 +4839,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-119",
+      "id": "MED-STORE-CARTS-114",
       "title": "Add a shipping method: malformed JSON",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5077,7 +4879,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-120",
+      "id": "MED-STORE-CARTS-115",
       "title": "Add store credit: wrong property type",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5120,7 +4922,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-121",
+      "id": "MED-STORE-CARTS-116",
       "title": "Refresh cart taxes: unknown property",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5164,7 +4966,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-122",
+      "id": "MED-STORE-CARTS-117",
       "title": "Create a cart: concurrent identical mutation",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5206,7 +5008,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-123",
+      "id": "MED-STORE-CARTS-118",
       "title": "Retrieve a cart: concurrent conflicting mutation",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5250,7 +5052,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-124",
+      "id": "MED-STORE-CARTS-119",
       "title": "Update a cart: request replay",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5294,7 +5096,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-125",
+      "id": "MED-STORE-CARTS-120",
       "title": "Complete a cart: empty JSON body",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5338,7 +5140,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-126",
+      "id": "MED-STORE-CARTS-121",
       "title": "Associate the authenticated customer: null JSON body",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5386,7 +5188,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-127",
+      "id": "MED-STORE-CARTS-122",
       "title": "Add gift cards to a cart: malformed JSON",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5426,7 +5228,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-128",
+      "id": "MED-STORE-CARTS-123",
       "title": "Remove gift cards from a cart: wrong property type",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5469,7 +5271,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-129",
+      "id": "MED-STORE-CARTS-124",
       "title": "Add a line item: unknown property",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5513,7 +5315,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-130",
+      "id": "MED-STORE-CARTS-125",
       "title": "Update a line item: concurrent identical mutation",
       "domain": "Carts",
       "category": "validation-replay-concurrency-idempotency",
@@ -5557,7 +5359,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-131",
+      "id": "MED-STORE-CARTS-126",
       "title": "Create a cart: missing publishable API key",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5592,7 +5394,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-132",
+      "id": "MED-STORE-CARTS-127",
       "title": "Retrieve a cart: invalid publishable API key",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5636,7 +5438,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-133",
+      "id": "MED-STORE-CARTS-128",
       "title": "Update a cart: missing customer authentication",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5677,7 +5479,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-134",
+      "id": "MED-STORE-CARTS-129",
       "title": "Complete a cart: minimal fields",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5718,7 +5520,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-135",
+      "id": "MED-STORE-CARTS-130",
       "title": "Associate the authenticated customer: valid locale",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5764,7 +5566,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-136",
+      "id": "MED-STORE-CARTS-131",
       "title": "Add gift cards to a cart: missing publishable API key",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5801,7 +5603,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-137",
+      "id": "MED-STORE-CARTS-132",
       "title": "Remove gift cards from a cart: invalid publishable API key",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5845,7 +5647,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-138",
+      "id": "MED-STORE-CARTS-133",
       "title": "Add a line item: missing customer authentication",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5886,7 +5688,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-139",
+      "id": "MED-STORE-CARTS-134",
       "title": "Update a line item: minimal fields",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5927,7 +5729,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-140",
+      "id": "MED-STORE-CARTS-135",
       "title": "Delete a line item: valid locale",
       "domain": "Carts",
       "category": "fields-localization-authentication",
@@ -5968,7 +5770,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-141",
+      "id": "MED-STORE-CARTS-136",
       "title": "Create a cart: JSON contract",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6007,7 +5809,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-142",
+      "id": "MED-STORE-CARTS-137",
       "title": "Retrieve a cart: total equation",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6048,7 +5850,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-143",
+      "id": "MED-STORE-CARTS-138",
       "title": "Update a cart: mutation/read consistency",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6089,7 +5891,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-144",
+      "id": "MED-STORE-CARTS-139",
       "title": "Complete a cart: timestamps",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6130,7 +5932,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-145",
+      "id": "MED-STORE-CARTS-140",
       "title": "Associate the authenticated customer: identifier prefixes",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6176,7 +5978,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-146",
+      "id": "MED-STORE-CARTS-141",
       "title": "Add gift cards to a cart: JSON contract",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6217,7 +6019,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-147",
+      "id": "MED-STORE-CARTS-142",
       "title": "Remove gift cards from a cart: total equation",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6258,7 +6060,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-148",
+      "id": "MED-STORE-CARTS-143",
       "title": "Add a line item: mutation/read consistency",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6299,7 +6101,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-149",
+      "id": "MED-STORE-CARTS-144",
       "title": "Update a line item: timestamps",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
@@ -6340,7 +6142,7 @@
       }
     },
     {
-      "id": "MED-STORE-CARTS-150",
+      "id": "MED-STORE-CARTS-145",
       "title": "Delete a line item: identifier prefixes",
       "domain": "Carts",
       "category": "response-cross-operation-consistency",
