@@ -1,6 +1,6 @@
 # Medusa Playwright Framework
 
-A production-oriented Playwright and TypeScript automation framework for a [Medusa](https://medusajs.com/) commerce stack. Local runs target `http://localhost:9000`. GitHub Actions runs the same suite against the hosted backend.
+A production-oriented Playwright and TypeScript automation framework for the hosted [Medusa](https://medusajs.com/) backend at `https://ec-medusa-app.onrender.com`. GitHub Actions wakes that service, runs the suite, and publishes the report.
 
 ## CI/CD
 
@@ -16,7 +16,9 @@ push, pull request, or manual run
 
 `scripts/wait-for-medusa.mjs` performs that poll. The default wait is 3 minutes (`MEDUSA_WAIT_TIMEOUT_MS`). The job itself times out after 20 minutes.
 
-CI sets `MEDUSA_BASE_URL` to `https://ec-medusa-app.onrender.com` and reads `MEDUSA_PUBLISHABLE_API_KEY` from the repository secret of the same name. The runner has no `.env` file. Failed tests retry twice. The HTML report is kept for 7 days whether the suite passes or fails.
+The workflow sets `MEDUSA_BASE_URL` to `https://ec-medusa-app.onrender.com` and reads `MEDUSA_PUBLISHABLE_API_KEY` from the repository secret of the same name. That key is the publishable API key for the hosted store’s Default Sales Channel. Failed tests retry twice. The HTML report is kept for 7 days whether the suite passes or fails.
+
+Open the run from the [Actions tab](https://github.com/ECDevAndTest/ec-playwright-framework/actions). The job is `test`. The wake step is **Wake Medusa**. Download `playwright-report` from the run summary when the job finishes.
 
 ## Current coverage
 
@@ -51,37 +53,6 @@ Playwright request context
       → test
 ```
 
-## Prerequisites
-
-- Node.js
-- npm
-- A running Medusa backend at `http://localhost:9000`
-- A Medusa publishable API key associated with the test sales channel
-
-## Setup
-
-```powershell
-npm install
-npx playwright install chromium
-Copy-Item .env.example .env
-```
-
-Set the local key in `.env`:
-
-```dotenv
-MEDUSA_PUBLISHABLE_API_KEY=your_publishable_key
-```
-
-## Run
-
-```powershell
-npm test
-npm run test:headed
-npm run test:ui
-npm run report
-npx playwright test tests/medusa/api/store-smoke.spec.ts --project=chromium
-```
-
 ## Store smoke check
 
 `tests/medusa/api/store-smoke.spec.ts` calls each mounted Store and Auth route once. The route table lives in `tests/medusa/api/store-smoke.endpoints.ts`.
@@ -111,4 +82,3 @@ Each call sends the publishable key with an unknown id or an invalid body. The e
 - Runtime OpenAPI response validation
 - Additional cart lifecycle coverage
 - Storefront UI projects and page objects
-- Docker Compose environment
