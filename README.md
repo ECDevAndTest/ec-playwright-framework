@@ -1,6 +1,22 @@
 # Medusa Playwright Framework
 
-A production-oriented Playwright and TypeScript automation framework targeting a local [Medusa](https://medusajs.com/) commerce stack.
+A production-oriented Playwright and TypeScript automation framework for a [Medusa](https://medusajs.com/) commerce stack. Local runs target `http://localhost:9000`. GitHub Actions runs the same suite against the hosted backend.
+
+## CI/CD
+
+Workflow: [`.github/workflows/playwright.yml`](.github/workflows/playwright.yml). It runs on a push to `master`, on a pull request, and from the Actions tab (**Run workflow**). There is no schedule. The hosted service sleeps on the free tier, so the job wakes it only when tests are about to run.
+
+```text
+push, pull request, or manual run
+  → checkout, Node 22, npm ci, install Chromium
+    → poll https://ec-medusa-app.onrender.com/health every 10s until HTTP 200
+      → npm test
+        → upload the playwright-report artifact
+```
+
+`scripts/wait-for-medusa.mjs` performs that poll. The default wait is 3 minutes (`MEDUSA_WAIT_TIMEOUT_MS`). The job itself times out after 20 minutes.
+
+CI sets `MEDUSA_BASE_URL` to `https://ec-medusa-app.onrender.com` and reads `MEDUSA_PUBLISHABLE_API_KEY` from the repository secret of the same name. The runner has no `.env` file. Failed tests retry twice. The HTML report is kept for 7 days whether the suite passes or fails.
 
 ## Current coverage
 
@@ -23,7 +39,7 @@ src/api/
 
 tests/medusa/api/  # API specs, including the store smoke check
 test-cases/        # Generated risk-based test-case candidates
-scripts/           # Test-case and catalog generators
+scripts/           # Wake-up poll and test-case generators
 ```
 
 Tests receive configured clients through custom fixtures:
@@ -96,4 +112,3 @@ Each call sends the publishable key with an unknown id or an invalid body. The e
 - Additional cart lifecycle coverage
 - Storefront UI projects and page objects
 - Docker Compose environment
-- GitHub Actions execution and artifact publishing
