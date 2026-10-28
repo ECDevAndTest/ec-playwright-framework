@@ -1,11 +1,15 @@
 import { test as base, expect } from '@playwright/test';
+import { AuthClient } from '../clients/auth-client';
 import { CartClient } from '../clients/cart-client';
+import { CustomerClient } from '../clients/customers-client';
 import { ProductClient } from '../clients/product-client';
 import type { StoreProductVariant } from '../types/product-types';
 
 type MedusaFixtures = {
   publishableApiKey: string;
+  authClient: AuthClient;
   cartClient: CartClient;
+  customerClient: CustomerClient;
   productClient: ProductClient;
   backpackVariant: StoreProductVariant;
 };
@@ -21,8 +25,16 @@ export const test = base.extend<MedusaFixtures>({
     await use(publishableApiKey);
   },
 
+  authClient: async ({ request, publishableApiKey }, use) => {
+    await use(new AuthClient(request, publishableApiKey));
+  },
+
   cartClient: async ({ request, publishableApiKey }, use) => {
     await use(new CartClient(request, publishableApiKey));
+  },
+
+  customerClient: async ({ request, publishableApiKey }, use) => {
+    await use(new CustomerClient(request, publishableApiKey));
   },
 
   productClient: async ({ request, publishableApiKey }, use) => {

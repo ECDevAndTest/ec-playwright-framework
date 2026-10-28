@@ -7,6 +7,10 @@ export interface AddCartLineItemRequest {
   quantity: number;
 }
 
+export interface UpdateCartLineItemRequest {
+  quantity: number;
+}
+
 export interface StoreCartLineItem {
   id: string;
   title: string;
