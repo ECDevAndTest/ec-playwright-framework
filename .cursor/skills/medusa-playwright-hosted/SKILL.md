@@ -31,6 +31,7 @@ Keep the Medusa app private. Do not containerize it unless Eric asks again. Its 
 - That script polls `/health` every 10 seconds until HTTP 200. `MEDUSA_WAIT_TIMEOUT_MS` defaults to 180000. The job timeout is 20 minutes.
 - Triggers: push to `master`, pull request, and **Run workflow**. No schedule.
 - The workflow sets `MEDUSA_BASE_URL` to the hosted API and reads `MEDUSA_PUBLISHABLE_API_KEY` from the repository secret. The runner has no `.env`.
+- Playwright uses one worker. The hosted app has no Redis, so concurrent cart-creation workflows deadlock on the in-memory lock. Do not raise `workers` or turn `fullyParallel` back on unless Render has a real `REDIS_URL`.
 - Failed tests retry twice. The `playwright-report` artifact is kept 7 days.
 - Logs appear only after the `test` job exists. The wake step is **Wake Medusa**. A run stuck on Queued with no job has not contacted Render.
 - Merging to `master` starts this workflow.

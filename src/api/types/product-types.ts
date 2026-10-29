@@ -17,3 +17,16 @@ export interface StoreProductListResponse {
   limit: number;
   offset: number;
 }
+
+export interface StoreProductResponse {
+  product: StoreProduct;
+}
+
+export interface ProductQuery {
+  limit?: number | string;
+  offset?: number | string;
+  q?: string;
+  order?: string;
+  handle?: string;
+  fields?: string;
+}
