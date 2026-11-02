@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
+import { defineBddProject } from 'playwright-bdd';
 
 function projectRoot(start: string) {
   let directory = path.resolve(start);
@@ -49,9 +50,39 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testDir: './tests',
       use: {
         ...devices['Desktop Chrome'],
       },
     },
+    {
+      ...defineBddProject({
+        name: 'admin',
+        features: 'features/admin/**/*.feature',
+        steps: 'steps/admin/**/*.ts',
+        tags: 'not @unscripted',
+      }),
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://ec-medusa-app.onrender.com/app',
+      },
+    },
+    // Marketplace stays out of this run until MARKETPLACE_BASE_URL is set.
+    ...(process.env.MARKETPLACE_BASE_URL
+      ? [
+          {
+            ...defineBddProject({
+              name: 'marketplace',
+              features: 'features/marketplace/**/*.feature',
+              steps: 'steps/marketplace/**/*.ts',
+              tags: 'not @unscripted',
+            }),
+            use: {
+              ...devices['Desktop Chrome'],
+              baseURL: process.env.MARKETPLACE_BASE_URL,
+            },
+          },
+        ]
+      : []),
   ],
 });
